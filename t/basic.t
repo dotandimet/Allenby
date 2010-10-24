@@ -6,9 +6,9 @@ use warnings;
 use Test::More tests => 5;
 use Test::Mojo;
 
-use_ok('allenby');
+use_ok('Allenby');
 
 # Test
-my $t = Test::Mojo->new(app => 'allenby');
+my $t = Test::Mojo->new(app => 'Allenby');
 $t->get_ok('/')->status_is(200)->content_type_is('text/html')
   ->content_like(qr/Mojolicious Web Framework/i);

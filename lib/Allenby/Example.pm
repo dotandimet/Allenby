@@ -1,4 +1,4 @@
-package allenby::Example;
+package Allenby::Example;
 
 use strict;
 use warnings;
