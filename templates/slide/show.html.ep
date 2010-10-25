@@ -1,0 +1,14 @@
+% layout 'default';
+<div class="slide ui-corner-all">
+This page was generated from the template
+"templates/example/welcome.html.ep" and the layout
+"templates/layouts/default.html.ep",
+<a href="<%== url_for %>">click here</a>
+to reload the page or
+<a href="/index.html">here</a>
+to move forward to a static page.
+</div>
+<div class="toolbar ui-state-default ui-corner-all">
+<a href="#">back</a>
+<a href="#">next</a>
+</div>

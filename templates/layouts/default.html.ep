@@ -1,4 +1,11 @@
 <!doctype html><html>
-    <head><title>Welcome</title></head>
-    <body><%== content %></body>
+    <head><title>Welcome to the Mojolicious Web Framework!</title>
+    <link rel="stylesheet" type="text/css" media="all" href="/css/ui-darkness/jquery-ui-1.8.5.custom.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/css/allenby.css" />
+    </head>
+    <body><%== content %>
+       <script type="text/javascript" src="/js/jquery-1.4.3.min.js"> </script>
+        <script type="text/javascript" src="/js/jquery-ui-1.8.5.custom.min.js"> </script>
+        <script type="text/javascript" src="/js/allenby.js"> </script>
+    </body>
 </html>

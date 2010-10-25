@@ -1,0 +1,27 @@
+.sorter {
+    height: 200px;
+    overflow: hidden;
+}
+
+.sorter .slide {
+    width: 200px;
+    padding: 10px;
+    margin: 5px;
+    list-style:none;
+    display: block;
+    float: left;
+}
+
+.slide {
+    margin: auto;
+    padding: 20px;
+    overflow: hide;
+    border: solid silver 2px;
+}
+
+body {
+    background: black;
+    color: white;
+    font-size: 3em;
+    font-family: san-serif;
+}
