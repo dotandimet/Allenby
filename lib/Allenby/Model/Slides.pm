@@ -60,7 +60,7 @@ sub store {
     my $str = $self->json->encode($self->slides);
     croak "Error writing: ", $self->json->error if ($self->json->error);
     my $file = Mojo::Asset::File->new();
-    $file->write_chunk($str);
+    $file->add_chunk($str);
     $file->move_to($self->path);
     return $str;
 }
