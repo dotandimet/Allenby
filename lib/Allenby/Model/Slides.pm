@@ -8,11 +8,8 @@ use strict;
 __PACKAGE__->attr([qw(text notes label)] => sub { '' });
 __PACKAGE__->attr(comments => sub { [] });
 __PACKAGE__->attr(set => undef);
+__PACKAGE__->attr(pos => 0);
 
-sub add {
-    my ($self, $slide) = shift;
-    $self->slides
-}
 
 sub hashref {
     my ($self) = @_;
@@ -20,45 +17,62 @@ sub hashref {
     };
 }
 
+sub next {
+    my ($self) = @_;
+    my $next = $self->pos + 1;
+    $next = 1 if ($next > $self->set->count);
+    return $next;
+}
+
+sub prev {
+    my ($self) = @_;
+    my $prev = $self->pos - 1;
+    $prev = $self->set->count if ($prev < 1);
+    return $prev;
+}
+
+
 package Allenby::Model::Slides;
 use base 'Mojo::Base';
 use Mojo::JSON;
+use Mojo::Asset::File;
 use Carp qw(croak);
 use Scalar::Util qw(blessed);
 __PACKAGE__->attr(slides => sub { [] });
 __PACKAGE__->attr(json => sub { Mojo::JSON->new() });
+__PACKAGE__->attr(path => 'slides.json');
 
 sub load {
-    my ($self, $str) = @_;
-
+    my ($self, $path) = @_;
+    my $str;
+    $self->path($path) if (defined $path && -r $path);
+    my $file = Mojo::Asset::File->new(path => $self->path);
+    $str = $file->slurp;
     my $arr = $self->json->decode($str);
-    croak "Error parsing: ", $self->json->error 
-        if ($self->json->error);
-    foreach my $h (@$arr) {
-        my $s = Allenby::Model::Slide->new(%$h);
-        push @{$self->slides}, $s;
-    }
+    croak "Error parsing: ", $self->json->error if ($self->json->error);
+    $self->slides( $arr );
+    return $self;
 }
 
 sub store {
-    my ($self) = @_;
-    my $arr = [];
-    foreach my $s (@{$self->slides}) {
-        push @$arr, $s->hashref;
-    }
-    my $str = $self->json->encode($arr);
+    my ($self, $path) = @_;
+    $self->path($path) if (defined $path && -r $path);
+    my $str = $self->json->encode($self->slides);
     croak "Error writing: ", $self->json->error if ($self->json->error);
+    my $file = Mojo::Asset::File->new();
+    $file->write_chunk($str);
+    $file->move_to($self->path);
     return $str;
 }
 
 sub first {
     my ($self) = @_;
-    return $self->slides->[0];
+    return $self->at(1);
 }
 
 sub last {
     my ($self) = @_;
-    return $self->slides->[-1];
+    return $self->at($self->count);
 }
 
 sub count {
@@ -70,9 +84,9 @@ sub at {
     my ($self, $pos) = @_;
     my $slides = $self->slides;
     my $i = $pos - 1; # position => index
-    croak "$pos is either not a number or out of bounds"
-        if ($i < 0 || $i > $#$slides);
-    return $slides->[$i] if ($slides->[$i]);
+    croak "$pos is either not a number or out of bounds" if ($i < 0 || $i > $#$slides);
+    my $h = $slides->[$i];
+    return Allenby::Model::Slide->new(%$h, set => $self, pos => $pos);
 }
 
 sub add {
@@ -92,7 +106,7 @@ sub add {
     else {
         croak "Can't add slide from @args\n";
     }
-    push @{$self->slides}, $slide;
+    push @{$self->slides}, $slide->hashref;
 }
 
 1;

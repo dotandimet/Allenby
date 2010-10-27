@@ -1,27 +1,8 @@
-.sorter {
-    height: 200px;
-    overflow: hidden;
-}
+body { background: black; color: white; font-family: arial, san-serif; }
+.toolbar { height: 200px; overflow: hidden; }
+a { outline: 0; }
+.slide { margin: auto; padding: 1em; overflow: hide; border: solid silver 2px; font-size: 3em; }
 
-.sorter .slide {
-    width: 200px;
-    padding: 10px;
-    margin: 5px;
-    list-style:none;
-    display: block;
-    float: left;
-}
 
-.slide {
-    margin: auto;
-    padding: 20px;
-    overflow: hide;
-    border: solid silver 2px;
-}
-
-body {
-    background: black;
-    color: white;
-    font-size: 3em;
-    font-family: san-serif;
-}
+.sorter { height: 200px; overflow: hidden; }
+.sorter .slide { font-size: 0.8em; width: 200px; padding: 10px; margin: 5px; list-style:none; display: block; float: left; }

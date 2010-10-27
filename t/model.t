@@ -7,9 +7,7 @@ use Test::More tests => 6;
 
 use_ok('Allenby::Model::Slides');
 
-my $show = Allenby::Model::Slides->new();
-my $str = do { open(my $fh, 'slides.json'); local $/; <$fh> };
-$show->load($str);
+my $show = Allenby::Model::Slides->new(path => 'slides.json')->load();
 is($show->count, 3, 'number of slides in file');
 like($show->first->text, qr/Mojolicious/, 'first slide');
 $show->add(text => 'MVC - what is it?', notes => 'mention Catalyst...');
