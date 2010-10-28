@@ -1,5 +1,5 @@
 <!doctype html><html>
-    <head><title>Welcome to the Mojolicious Web Framework!</title>
+    <head><meta charset="utf-8"><title>Welcome to the Mojolicious Web Framework!</title>
     <link rel="stylesheet" type="text/css" media="all" href="/css/ui-darkness/jquery-ui-1.8.5.custom.css" />
     <link rel="stylesheet" type="text/css" media="all" href="/css/allenby.css" />
     </head>

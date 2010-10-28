@@ -1,15 +1,18 @@
 % layout 'default';
 <div class="slide ui-corner-all">
-<%= form_for id => $slide->pos => method => 'post' => begin %>
+<%= form_for 'current', (method => 'post') => begin %>
 Slide #<%= $slide->pos %><br/>
+% if ($slide->pos) {
+<%= hidden_field id => $slide->pos %>
+% }
 <%= text_area 'text', (rows => 8, cols => 35) => begin %>
 <%= $slide->text; %>
 <% end %>
 <br>
-<%= text_field 'label', value => $slide->label %>
+Label: <%= text_field 'label', value => $slide->label %>
 <br>
-<%= text_field 'notes', value => $slide->notes %>
+Notes: <%= text_field 'notes', value => $slide->notes %>
 <br>
-<%= submit_button %>
+<%= submit_button 'save' %>
 <% end %>
 </div>

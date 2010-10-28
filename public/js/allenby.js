@@ -1,7 +1,23 @@
 $(
     function(){
-        $('.sorter').sortable();
-        $('.sorter').disableSelection();
+        $('.sorter').sortable( { stop: function(event, ui) {
+                                        var new_order = $('.sorter').sortable('toArray');
+                                        $.post('/slide-reorder', 
+                                            { "order" : '[' + new_order.join(',') + ']' },
+                                            function(data){ 
+                                                alert(data);
+                                                // reorder ids once reordered
+                                                // on the server
+                                                var i = 1;
+                                                $('.sorter li').each(function(){
+                                                     $(this).attr('id', i++);
+                                                });
+                                            } );
+                                    } } ).disableSelection();
+        $('.sorter .slide').dblclick( function() {
+                var id = $(this).attr('id');
+                window.location = '/slide/' + id;
+        } );
         $('.toolbar a').hover( function(){ $(this).addClass('ui-state-hover'); },
                                function(){ $(this).removeClass('ui-state-hover'); } ); 
         if ($('.toolbar a').length > 1) {
