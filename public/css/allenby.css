@@ -1,9 +1,12 @@
 body { background: black; color: white; font-family: arial, san-serif; }
-.toolbar { padding: 3px; overflow: hidden; }
+.toolbar { padding: 3px; overflow: hidden; float: left; }
+.notes { float: right; }
 a { outline: 0; }
-.slide { margin: auto; padding: 1em; overflow: hide; border: solid silver 2px; font-size: 3em; }
+.slide { margin: auto; padding: 1em; overflow: hidden; border: solid silver
+2px; font-size: 3em; height: 90%; min-height: 90%; }
 .slide form { font-size: 40%; }
+.slide textarea { width: 40em; }
 
-
-.sorter { height: 200px; overflow: hidden; }
-.sorter .slide { font-size: 0.8em; width: 200px; padding: 10px; margin: 5px; list-style:none; display: block; float: left; }
+.sorter { overflow: scroll; }
+.sorter .slide { font-size: 0.8em; width: 200px; height: 200px; padding: 10px; margin: 5px; list-style:none; display: block; float: left; }
+.selected { border: solid gold 2px; }

@@ -5,4 +5,8 @@
   <li class="slide ui-state-default" id="<%== $idx %>"><%== $slide->text %></li>
 % }
 </ul>
+<div class="toolbar">
+<%== button 'new' => '/slide-add' %>
+<%== button 'copy' => '/slide-copy' %>
+</div>
  

@@ -6,6 +6,7 @@
     <body><%== content %>
        <script type="text/javascript" src="/js/jquery-1.4.3.min.js"> </script>
         <script type="text/javascript" src="/js/jquery-ui-1.8.5.custom.min.js"> </script>
+        <script type="text/javascript" src="/js/jquery.backgroundPosition.js"> </script>
         <script type="text/javascript" src="/js/allenby.js"> </script>
     </body>
 </html>

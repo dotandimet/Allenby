@@ -21,7 +21,7 @@ sub edit {
         $slide = $self->stash('show')->at($id);
     }
     else {
-        $slide = Allenby::Slide->new();
+        $slide = Allenby::Model::Slide->new();
     }
     if (lc $self->req->method() eq 'post') {
         my ($text) = $self->param('text');
@@ -38,7 +38,7 @@ sub edit {
     }
     $self->stash(slide => $slide);
 
-}
+};
 
 sub reorder {
     my ($self) = shift;

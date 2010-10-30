@@ -12,12 +12,15 @@ sub startup {
 
     # Routes
     my $r = $self->routes;
-
-    # Default route
-    $r->route('/slide-reorder')->via('post')->to('slide#reorder')->name('reorder');
-    $r->route('/slide/:id/edit')->to('slide#edit')->name('edit');
+    
     $r->route('/slide/:id')->to('slide#show')->name('show');
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
+
+    $r->route('/slide-reorder')->via('post')->to('slide#reorder')->name('reorder');
+    $r->route('/slide/:id/edit')->to('slide#edit')->name('edit');
+    $r->route('/slide-add')->to('slide#edit')->name('edit');
+
+    $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
     my $path = File::Spec->catpath($self->home, 'slides.json');
     my $presentation = Allenby::Model::Slides->new()->load($path);

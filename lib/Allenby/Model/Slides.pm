@@ -113,6 +113,9 @@ sub add {
     if (ref $args[0]) {
         if (blessed($args[0]) && $args[0]->isa('Allenby::Model::Slide')) {
             $slide = $args[0];
+            # add extras:
+            $slide->set($self);
+            $slide->pos($self->count);
         }
         if (ref $args[0] eq 'HASH') {
             $slide = Allenby::Model::Slide->new(%{$args[0]}, %extras);
