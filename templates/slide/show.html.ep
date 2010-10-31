@@ -1,10 +1,11 @@
 % layout 'default';
-<div class="slide ui-corner-all">
+<div class="slide ui-corner-all"<% if ($slide->label) { %> id="<%= $slide->label %>"<% } %>>
 <%== $slide->text; %>
 </div>
 <div class="toolbar">
 <%== button prev => url_for(id => $slide->prev) %>
 <%== button next => url_for(id => $slide->next) %>
-<%== button edit => url_for(action => 'edit') %>
+<%== button edit => url_for('edit', id => $slide->pos) %>
+<%== button sort => url_for('sorter') %>
 </div>
 <div class="notes ui-corner-all"><%= $slide->notes %></div>

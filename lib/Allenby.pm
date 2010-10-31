@@ -12,12 +12,20 @@ sub startup {
 
     # Routes
     my $r = $self->routes;
+    
+    $r->route('/slide/:id')->to('slide#show')->name('show');
+    $r->route('/slide/')->to('slide#sorter')->name('sorter');
 
-    # Default route
-    $r->route('/:controller/:action/:id')->to('example#welcome', id => 1);
+    $r->route('/slide-reorder')->via('post')->to('slide#reorder')->name('reorder');
+    $r->route('/slide/:id/edit')->to('slide#edit')->name('edit');
+    $r->route('/slide-add')->to('slide#edit')->name('edit');
+
+    $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
     my $path = File::Spec->catpath($self->home, 'slides.json');
-    $self->defaults(show => Allenby::Model::Slides->new()->load($path));
+    my $presentation = Allenby::Model::Slides->new()->load($path);
+    $presentation->path('slides.json.current'); 
+    $self->defaults(show => $presentation);
 
     $self->helper( button => sub { 
         my $c = shift;

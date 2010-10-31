@@ -2,19 +2,32 @@
 
 use Mojolicious::Lite;
 
-get '/' => 'index';
-
-get '/:groovy' => sub {
+any '/' => sub { 
     my $self = shift;
-    $self->render(text => $self->param('groovy'), layout => 'funky');
-};
+    my $test = $self->param('test') || '';
+    $self->stash('test', $test);
+     } => 'index';
+
 
 app->start;
 __DATA__
 
 @@ index.html.ep
 % layout 'funky';
-Yea baby!
+What's up?
+<%= form_for 'current' => begin %>
+Test: <%= text_field 'test', value => $test %>
+<% end %>
+<%= form_for 'current', (method => 'post') => begin %>
+<%= text_area 'text', (rows => 8, cols => 35) => begin %>
+<% end %>
+<br>
+Label: <%= text_field 'test', value => $test %>
+<br>
+Notes: <%= text_field 'notes', value => $test %>
+<br>
+<%= submit_button 'save' %>
+<% end %>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>

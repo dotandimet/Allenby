@@ -13,7 +13,10 @@ __PACKAGE__->attr(pos => 0);
 
 sub hashref {
     my ($self) = @_;
-    return { text => $self->text, notes => $self->notes, label => $self->label
+    return {
+        text  => $self->text,
+        notes => $self->notes,
+        label => $self->label
     };
 }
 
@@ -31,11 +34,20 @@ sub prev {
     return $prev;
 }
 
+sub before {
+    my ($self, $before_this) = @_;
+    my $set = $self->set->slides;
+    my $idx = $self->pos - 1;
+    splice(@$set, $idx, 1); # cut myself out
+    splice(@$set, $before_this - 1, 0, $self); # stick myself in
+    return $self;
+}
 
 package Allenby::Model::Slides;
 use base 'Mojo::Base';
 use Mojo::JSON;
 use Mojo::Asset::File;
+use Mojo::ByteStream 'b';
 use Carp qw(croak);
 use Scalar::Util qw(blessed);
 __PACKAGE__->attr(slides => sub { [] });
@@ -48,16 +60,22 @@ sub load {
     $self->path($path) if (defined $path && -r $path);
     my $file = Mojo::Asset::File->new(path => $self->path);
     $str = $file->slurp;
-    my $arr = $self->json->decode($str);
+    my $arr = $self->json->decode(b($str));
     croak "Error parsing: ", $self->json->error if ($self->json->error);
-    $self->slides( $arr );
+    my $pos = 1;
+    foreach my $s (@$arr) {
+        push @{ $self->slides }, 
+            Allenby::Model::Slide->new(%$s, set => $self, pos => $pos++);
+    }
     return $self;
 }
 
 sub store {
     my ($self, $path) = @_;
     $self->path($path) if (defined $path && -r $path);
-    my $str = $self->json->encode($self->slides);
+    my $arr = [];
+    push @$arr, $_->hashref for (@{$self->slides});
+    my $str = $self->json->encode($arr);
     croak "Error writing: ", $self->json->error if ($self->json->error);
     my $file = Mojo::Asset::File->new();
     $file->add_chunk($str);
@@ -85,28 +103,38 @@ sub at {
     my $slides = $self->slides;
     my $i = $pos - 1; # position => index
     croak "$pos is either not a number or out of bounds" if ($i < 0 || $i > $#$slides);
-    my $h = $slides->[$i];
-    return Allenby::Model::Slide->new(%$h, set => $self, pos => $pos);
+    return $slides->[$i];
 }
 
 sub add {
     my ($self, @args) = @_;
     my $slide;
+    my %extras = ( set => $self, pos => $self->count );
     if (ref $args[0]) {
         if (blessed($args[0]) && $args[0]->isa('Allenby::Model::Slide')) {
             $slide = $args[0];
+            # add extras:
+            $slide->set($self);
+            $slide->pos($self->count);
         }
         if (ref $args[0] eq 'HASH') {
-            $slide = Allenby::Model::Slide->new(%{$args[0]});
+            $slide = Allenby::Model::Slide->new(%{$args[0]}, %extras);
         }
     }
     elsif (@args % 2 == 0) {
-        $slide = Allenby::Model::Slide->new(@args);
+        $slide = Allenby::Model::Slide->new(@args, %extras);
     }
     else {
         croak "Can't add slide from @args\n";
     }
-    push @{$self->slides}, $slide->hashref;
+    push @{$self->slides}, $slide;
+}
+
+sub reorder {
+    my ($self, $neworder) = @_;
+    my $i = 1;
+    my @arr = map { $self->at($_)->pos($i++) } @$neworder;
+    $self->slides(\@arr);
 }
 
 1;
