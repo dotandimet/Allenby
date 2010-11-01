@@ -1,6 +1,6 @@
 % layout 'default';
 <div class="slide ui-corner-all">
-<%= form_for 'current', (method => 'post') => begin %>
+<%= form_for 'show', (method => 'post') => begin %>
 Slide #<%= $slide->pos %><br/>
 % if ($slide->pos) {
 <%= hidden_field id => $slide->pos %>
