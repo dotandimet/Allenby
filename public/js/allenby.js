@@ -1,7 +1,7 @@
 $( function(){
         $('.sorter').sortable( { stop: function(event, ui) {
                                         var new_order = $('.sorter').sortable('toArray');
-                                        $.post('/slide-reorder', 
+                                        $.post('/slide/reorder', 
                                             { "order" : '[' + new_order.join(',') + ']' },
                                             function(data){ 
                                                 var i = 1;

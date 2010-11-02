@@ -13,12 +13,14 @@ sub startup {
     # Routes
     my $r = $self->routes;
     
-    $r->route('/slide/:id')->to('slide#show')->name('show');
+    my $rs = $r->waypoint('/slide/:id', id => qr/(\d+)/)
+               ->to(controller => 'slide', action => 'show')
+               ->name('show');
+    $rs->route('/edit')->to(action => 'edit')->name('edit');
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
 
-    $r->route('/slide-reorder')->via('post')->to('slide#reorder')->name('reorder');
-    $r->route('/slide/:id/edit')->to('slide#edit')->name('edit');
-    $r->route('/slide-add')->to('slide#edit')->name('edit');
+    $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');
+    $r->route('/slide/add')->to('slide#edit');
 
     $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
