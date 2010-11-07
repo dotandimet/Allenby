@@ -21,6 +21,7 @@ sub startup {
 
     $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');
     $r->route('/slide/add')->to('slide#edit');
+    $r->route('/slide/save')->to('slide#save')->name('save');
 
     $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 

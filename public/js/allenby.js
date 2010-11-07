@@ -55,7 +55,7 @@ $( function(){
             var $selected = $('.sorter .slide.selected');
             var pos = $selected.attr('id');
             var text = $selected.html();
-            $.post('/slide-add', { 'text': text, notes: '', label: '' },
+            $.post('/slide/add', { 'text': text, notes: '', label: '' },
             function(){ 
                 alert(pos + "\n" + text);
                 // $selected.clone().appendTo($selected);

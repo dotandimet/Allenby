@@ -128,6 +128,7 @@ sub add {
         croak "Can't add slide from @args\n";
     }
     push @{$self->slides}, $slide;
+    return 1+scalar @{$self->slides};
 }
 
 sub reorder {

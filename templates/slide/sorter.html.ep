@@ -6,7 +6,7 @@
 % }
 </ul>
 <div class="toolbar">
-<%== button 'new' => '/slide-add' %>
+<%== button 'new' => '/slide/add' %>
 <%== button 'copy' => '/slide-copy' %>
 </div>
  
