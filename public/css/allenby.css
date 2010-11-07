@@ -13,7 +13,7 @@ a { outline: 0; }
     padding: 1em; 
     overflow: hidden; 
     border: solid silver 2px;
-    font-size: 3em; 
+    font-size: 2em; 
     }
 .slide.show {
     height: auto; 
@@ -23,6 +23,7 @@ a { outline: 0; }
     bottom: 1em;
     left: 0;
     right: 0;
+    -webkit-scale: 100%;
 }
 .slide form { font-size: 40%; }
 .slide textarea { width: 40em; }

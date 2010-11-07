@@ -25,9 +25,17 @@ sub startup {
 
     $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
+    my $presentation = Allenby::Model::Slides->new();
+
     my $path = File::Spec->catpath($self->home, 'slides.json');
-    my $presentation = Allenby::Model::Slides->new()->load($path);
-    $presentation->path('slides.json.current'); 
+    my $backuppath = File::Spec->catpath($self->home, 'slides.json.current');
+    if (!-e $backuppath) {
+        $presentation->load($path);
+        $presentation->path($backuppath); 
+    }
+    else {
+        $presentation->load($backuppath);
+    }
     $self->defaults(show => $presentation);
 
     $self->helper( button => sub { 
