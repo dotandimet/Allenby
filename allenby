@@ -1,36 +1,94 @@
 #!/usr/bin/env perl
 
+use lib 'lib';
+use Allenby::Model::Slides;
 use Mojolicious::Lite;
+use File::Basename 'dirname';
+use File::Spec;
 
-any '/' => sub { 
-    my $self = shift;
-    my $test = $self->param('test') || '';
-    $self->stash('test', $test);
-     } => 'index';
+get '/slide/:id' => (id => qr/(\d+)/) => sub {
+    my ($self) = @_;
+    $self->get_slide()
+      || die "No slide found";
+} => 'show';
 
+get '/slide/:id/edit' => (id => qr/(\d+)/) => sub {
+    my ($self) = @_;
+    $self->stash(slide => Allenby::Model::Slide->new)
+      unless ($self->get_slide());
+} => 'edit';
+
+get '/slide/' => 'sorter';
+
+post '/slide/reorder' => sub {    #slide#reorder
+    my ($self) = shift;
+    my $order = $self->param('order');
+    $order = Mojo::JSON->decode($order);
+    $self->stash('show')->reorder($order);
+    my @new = map { $_->pos } @{$self->stash('show')->slides};
+    $self->stash('show')->store();
+    $self->render(json => {success => 1, order => \@new});
+} => 'reorder';
+
+#    $r->route('/slide/add')->to('slide#edit');
+
+post '/slide/save' => sub {
+    my ($self) = @_;
+    my $id = $self->get_slide;
+    my $slide =
+      ($id)
+      ? $self->stash('slide')
+      : Allenby::Model::Slide->new();
+    my ($text)  = $self->param('text');
+    my ($notes) = $self->param('notes');
+    my ($label) = $self->param('label');
+    $slide->text($text);
+    $slide->notes($notes);
+    $slide->label($label);
+
+    if (!$id) {
+        $id = $self->stash('show')->add($slide);
+    }
+    $self->stash('show')->store();
+    $self->redirect_to('show', id => $id);
+
+} => 'save';
+
+any '/' => sub { shift->redirect_to('sorter'); };
+
+my $path = File::Spec->catpath(app->home, 'slides.json');
+my $presentation = Allenby::Model::Slides->new()->load($path);
+$presentation->path('slides.json.current');
+app->defaults(show => $presentation);
+
+my $dir = File::Spec->splitdir(dirname(__FILE__));
+my $templates = File::Spec->catpath($dir, 'templates', 'slide');
+my $layouts = File::Spec->catpath($dir, 'templates', 'layouts');
+app->renderer->root($templates);
+app->renderer->layout_prefix($layouts);
+
+app->helper(
+    button => sub {
+        my $c = shift;
+        my ($text, $href) = @_;
+        my @classes = qw(ui-button ui-widget
+          ui-state-default ui-corner-all
+          ui-button-text-only);
+        qq{<a href="$href" role="button" class="@classes">}
+          . qq{<span class="ui-button-text">$text</span></a>};
+    }
+);
+
+
+sub get_slide {
+    my ($self) = @_;
+    my $id = $self->param('id');
+    return unless ($id);
+    my $slide = $self->stash('show')->at($id);
+    $self->stash(slide => $slide);
+    return $id;
+}
 
 app->start;
-__DATA__
 
-@@ index.html.ep
-% layout 'funky';
-What's up?
-<%= form_for 'current' => begin %>
-Test: <%= text_field 'test', value => $test %>
-<% end %>
-<%= form_for 'current', (method => 'post') => begin %>
-<%= text_area 'text', (rows => 8, cols => 35) => begin %>
-<% end %>
-<br>
-Label: <%= text_field 'test', value => $test %>
-<br>
-Notes: <%= text_field 'notes', value => $test %>
-<br>
-<%= submit_button 'save' %>
-<% end %>
 
-@@ layouts/funky.html.ep
-<!doctype html><html>
-    <head><title>Funky!</title></head>
-    <body><%== content %></body>
-</html>
