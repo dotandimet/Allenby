@@ -10,7 +10,7 @@ get '/slide/:id' => (id => qr/(\d+)/) => sub {
     my ($self) = @_;
     $self->get_slide()
       || die "No slide found";
-} => 'show';
+} => 'slide/show';
 
 get '/slide/:id/edit' => (id => qr/(\d+)/) => sub {
     my ($self) = @_;
@@ -61,11 +61,6 @@ my $presentation = Allenby::Model::Slides->new()->load($path);
 $presentation->path('slides.json.current');
 app->defaults(show => $presentation);
 
-my $dir = File::Spec->splitdir(dirname(__FILE__));
-my $templates = File::Spec->catpath($dir, 'templates', 'slide');
-my $layouts = File::Spec->catpath($dir, 'templates', 'layouts');
-app->renderer->root($templates);
-app->renderer->layout_prefix($layouts);
 
 app->helper(
     button => sub {

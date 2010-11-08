@@ -2,6 +2,7 @@ package Allenby::Model::Slides;
 
 package Allenby::Model::Slide;
 use base 'Mojo::Base';
+use Text::Markdown 'markdown';
 use warnings;
 use strict;
 
@@ -10,6 +11,9 @@ __PACKAGE__->attr(comments => sub { [] });
 __PACKAGE__->attr(set => undef);
 __PACKAGE__->attr(pos => 0);
 
+sub html {
+    return markdown shift->text;
+}
 
 sub hashref {
     my ($self) = @_;
@@ -136,6 +140,48 @@ sub reorder {
     my $i = 1;
     my @arr = map { $self->at($_)->pos($i++) } @$neworder;
     $self->slides(\@arr);
+}
+
+sub write_showmetheslides {
+    my ($self, $filename) = @_;
+    open my $file, ">:encoding(UTF-8)", $filename
+      or die "Can't write slides to $filename: $!";
+      print $file "\n@\n"; # skip metadata section
+    foreach my $slide (@{$self->slides}) {
+       print $file $slide->text, "\n@\n"; 
+    }
+    close($file);
+}
+
+sub load_showmetheslides {
+    my ($self, $filename) = @_;
+    open my $file, "<:encoding(UTF-8)", $filename
+      or die "Can't read slides from $filename: $!";
+    my $slurp = do { local $/; <$file> };
+
+    $slurp .= '@';
+
+    my $metadata = {};
+    if ($slurp =~ s/^(.*?)\s*(?=@)//s) {
+        foreach (split /\n/ => $1) {
+            my ($name, $value) = ($_ =~ m/(.*?):\s*(.*)/);
+            $metadata->{lc $name} = $value;
+        }
+    }
+
+    my @slides;
+    my $pos = 1;
+    while ($slurp =~ s/^\@(.*?)(?=^\@)//ms) {
+        my $content = $1;
+
+        $content =~ s/^\s+//;
+        $content =~ s/\s+$//;
+
+        push @{ $self->slides }, 
+            Allenby::Model::Slide->new(text => $content, set => $self, pos => $pos++);
+    }
+    return $self;
+
 }
 
 1;

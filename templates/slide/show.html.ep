@@ -1,6 +1,6 @@
 % layout 'default';
 <div class="slide ui-corner-all show"<% if ($slide->label) { %> id="<%= $slide->label %>"<% } %>>
-<%== $slide->text; %>
+<%== $slide->html; %>
 </div>
 <div class="toolbar">
 <%== button prev => url_for(id => $slide->prev) %>
