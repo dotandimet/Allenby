@@ -17,6 +17,7 @@ sub startup {
                ->to(controller => 'slide', action => 'show')
                ->name('show');
     $rs->route('/edit')->to(action => 'edit')->name('edit');
+    $rs->route('/copy')->to(action => 'copy')->name('copy');
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
 
     $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');

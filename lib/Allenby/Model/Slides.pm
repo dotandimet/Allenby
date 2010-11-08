@@ -138,5 +138,6 @@ sub reorder {
     $self->slides(\@arr);
 }
 
+
 1;
 
