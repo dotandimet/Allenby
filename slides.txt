@@ -1,0 +1,73 @@
+@
+#Mojolicious
+
+
+###Duct Tape for The HTML5 Web
+
+@
+
+Dotan Dimet
+
+דותן דימט
+
+Programming Perl for 10 years
+
+*Christ. That's long.*
+
+
+
+
+
+
+@
+
+Web Programming
+
+* Distributed
+* Scalable
+* Standard/Open
+
+
+@
+
+Data @ Server
+
+Presentation/Interaction in Browser
+
+Talk HTTP to me, baby
+
+@
+
+### HTTP
+
+* Text-based
+* Stateless
+* Connect, Request, Response, Close
+
+
+
+
+
+
+
+
+
+@
+
+Always looking for a good web framework.
+
+MVC is *Hard*
+
+
+
+@
+
+![Romantically Apocalyptic](/blastwave1.jpg)
+
+
+
+@
+
+![part 2](/blastwave2.jpg)
+@
+

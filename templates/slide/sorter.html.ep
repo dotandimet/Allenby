@@ -2,11 +2,12 @@
 <ul class="sorter">
 % for (my $idx = 1; $idx <= $show->count; $idx++) {
 % my $slide = $show->at($idx);
-  <li class="slide ui-state-default" id="<%== $idx %>"><%== $slide->text %></li>
+  <li class="slide ui-state-default" id="<%== $idx %>"><%== $slide->html %></li>
 % }
 </ul>
 <div class="toolbar">
 <%== button 'new' => '/slide/add' %>
 <%== button 'copy' => '/slide/copy' %>
+<%== button 'cut' => '/slide/cut' %>
 </div>
  

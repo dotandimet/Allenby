@@ -1,0 +1,213 @@
+
+@
+
+# Mojolicious
+## Duct Tape for the HTML5 Web
+@
+
+I work for Evogene, we do Plant Bioinformatics
+Build big databases (Oracle) and do queries, reports and UI for researchers
+Web stuff is just how we do UI - we don't deploy in the wild 
+
+Bioinformatics & web stuff are both historically in Perl's wheelhouse
+
+@
+
+Request / Response 2
+
+@
+
+#CGI
+ - single process 
+* eats (input)
+* shoots (output)
+* and leaves (exit)
+@
+
+* write your own
+* CGI::Application
+* CGI::Prototype
+* no, seroiusly, write your own
+@
+
+Persistant 
+
+* mod_perl - interpreter lives in server, program hangs around
+* FastCGI - independant process web server communicates with
+* Stand-alone server
+* PSGI/Plack
+
+@
+
+* HTTP::Engine
+* PSGI, Plack
+* Mojo
+@
+
+MVC frameworks 
+Mason
+Maypole
+Catalyst
+Jifty
+@
+
+web app - 
+State Transitions
+Rendering a page from Data
+@
+
+Maypole
+Class::DBI
+Template::Toolkit
+mod_perl
+@
+
+Catalyst
+yes, but
+insanely modular.
+@
+
+Mojolicious
+Don't tell me how to model my data
+Help me do the
+@
+
+Dispatching:
+@
+
+Square: myapp.cgi?foo=baz&bar=42
+Cool: /myapp/bar/42
+@
+
+# myapp.cgi
+use CGI;
+my $req = CGI->new;
+if ($req->param('foo') eq 'baz') {
+    my ($id) = $req->param('bar');
+    doBaz($id);
+}
+elsif ($req->param('foo') eq 'burt') {
+...
+@
+
+My first vim power tip: %
+(bracket bouncing through the spaghetti code)
+@
+
+Rendering:
+@
+
+Mojolicious
+New Web Framework from Sebastian Reidel
+Sebastian was the chief maintainer of Maypole (Class::DBI+Template-Toolkit+mod_perl)
+Wanted to make radical changes
+Got booted
+Started Catalyst (Like Maypole, except super configurable)
+Wanted to make radical changes
+Got booted
+Went to work on other things
+worked with Ruby on Rails
+Brought back Mojolicious
+@
+
+Originally called Mojo
+Mojo is the foundation of Mojolicious
+Mojo is a complete HTTP 1.1 Implementation
+RFC driven development
+Test driven development
+@
+
+Mojolicious is super focused
+What it is concerned with is what to do when a given URL is asked for
+Usually the answer is: run this method of that class and render this template.
+@
+
+Dotan Dimet
+
+דותן דימט
+
+Programming Perl for 10 years
+
+*Christ. That's long.*
+@
+
+
+Perl was the duct tape of the web
+browser and server talk in HTTP - stateless, text based protocol over TCP/IP
+browser renders text (HTML) into page/form UI
+HTML: text that defines pages, links, forms
+
+@
+
+### HTTP
+
+* Text-based
+* Stateless
+* Connect, Request, Response, Close
+
+@
+### HTML
+
+* formatted text (documents)
+* links, forms
+* images, tables
+
+### HTML 4
+
+* Javascript
+* DOM
+* CSS
+* XMLHTTPRequest
+
+@
+
+### HTML 5
+
+* New form elements
+* CSS transitions and animations
+* Canvas! SVG! Video! Audio! Offline!
+* Websockets!
+
+@
+
+Basics of Web interaction (HTML, HTTP)
+
+Get page
+page has resources (links, form action)
+get other resources
+Request, Response
+
+@ 
+
+* Organize our state machine 
+* Set of resources map to separate scripts or branches of logic
+
+@
+
+MVC:
+
+* Organize your code into files and classes:
+* **M**odel - your data (usually ORM talking to SQL database)
+* **V**iew - templates
+* **C**ontroller - the code logic
+
+@
+
+
+
+    Caveats
+    
+	@
+	
+	![Romantically Apocalyptic](/blastwave1.jpg)
+	
+	
+	
+	[yko: *Sometimes sri reminds me captain from Romantically Apocalyptic*](http://irclog.perlgeek.de/mojo/2010-07-14#i_2552055)
+	@
+	
+	![part 2](/blastwave2.jpg)
+	@
+	
+	
+	

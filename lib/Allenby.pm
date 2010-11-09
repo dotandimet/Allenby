@@ -18,6 +18,7 @@ sub startup {
                ->name('show');
     $rs->route('/edit')->to(action => 'edit')->name('edit');
     $rs->route('/copy')->to(action => 'copy')->name('copy');
+    $rs->route('/cut')->to(action => 'cut')->name('cut');
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
 
     $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');

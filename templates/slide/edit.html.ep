@@ -11,7 +11,7 @@ Slide #<%= $slide->pos %><br/>
 <br>
 Label: <%= text_field 'label', value => $slide->label %>
 <br>
-Notes: <%= text_field 'notes', value => $slide->notes %>
+Notes: <%= text_area 'notes' => $slide->notes %>
 <br>
 <%= submit_button 'save' %>
 <% end %>

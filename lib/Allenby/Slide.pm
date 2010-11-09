@@ -34,6 +34,17 @@ sub copy {
     $self->redirect_to('show', id => $id);
 };
 
+sub cut {
+    my ($self) = @_;
+    $self->get_slide or die "No slide to copy";
+    my $slide = $self->stash('slide');
+    my $set = $slide->set->slides;
+    splice(@$set, $slide->pos - 1, 1); # cut myself out
+    $slide->set(undef);
+    $self->stash('show')->store();
+    $self->render(json => 'ok');
+};
+
 sub reorder {
     my ($self) = shift;
     my $order = $self->param('order');
