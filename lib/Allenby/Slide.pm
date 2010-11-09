@@ -25,6 +25,36 @@ sub edit {
     $self->stash(slide => Allenby::Model::Slide->new) unless ($self->get_slide());
 };
 
+sub copy {
+    my ($self) = @_;
+    $self->get_slide or die "No slide to copy";
+    my $slide = Allenby::Model::Slide->new( $self->stash('slide')->hashref );
+    my $id = $self->stash('show')->add($slide);
+    $self->stash('show')->store();
+    $self->redirect_to('show', id => $id);
+};
+
+sub cut {
+    my ($self) = @_;
+    $self->get_slide or die "No slide to copy";
+    my $slide = $self->stash('slide');
+    my $set = $slide->set->slides;
+    splice(@$set, $slide->pos - 1, 1); # cut myself out
+    $slide->set(undef);
+    $self->stash('show')->store();
+    $self->render(json => 'ok');
+};
+
+sub reorder {
+    my ($self) = shift;
+    my $order = $self->param('order');
+    $order = Mojo::JSON->decode($order);
+    $self->stash('show')->reorder($order);
+    my @new = map { $_->pos } @{$self->stash('show')->slides};
+    $self->stash('show')->store();
+    $self->render(json => { success => 1 , order => \@new });
+};
+
 sub save {
     my ($self) = @_;
     my $id = $self->get_slide;
@@ -42,19 +72,5 @@ sub save {
     $self->stash('show')->store();
     $self->redirect_to('show', id => $id);
 };
-
-sub reorder {
-    my ($self) = shift;
-    my $order = $self->param('order');
-    $order = Mojo::JSON->decode($order);
-    $self->stash('show')->reorder($order);
-    my @new = map { $_->pos } @{$self->stash('show')->slides};
-    $self->stash('show')->store();
-    $self->render(json => { success => 1 , order => \@new });
-};
-
-
-
-
 
 1;

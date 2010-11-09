@@ -4,10 +4,6 @@
 
 ###Duct Tape for The HTML5 Web
 
-
-
-
-
 @
 
 Dotan Dimet

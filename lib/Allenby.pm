@@ -17,6 +17,8 @@ sub startup {
                ->to(controller => 'slide', action => 'show')
                ->name('show');
     $rs->route('/edit')->to(action => 'edit')->name('edit');
+    $rs->route('/copy')->to(action => 'copy')->name('copy');
+    $rs->route('/cut')->to(action => 'cut')->name('cut');
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
 
     $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');
@@ -25,9 +27,17 @@ sub startup {
 
     $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
+    my $presentation = Allenby::Model::Slides->new();
+
     my $path = File::Spec->catpath($self->home, 'slides.json');
-    my $presentation = Allenby::Model::Slides->new()->load($path);
-    $presentation->path('slides.json.current'); 
+    my $backuppath = File::Spec->catpath($self->home, 'slides.json.current');
+    if (!-e $backuppath) {
+        $presentation->load($path);
+        $presentation->path($backuppath); 
+    }
+    else {
+        $presentation->load($backuppath);
+    }
     $self->defaults(show => $presentation);
 
     $self->helper( button => sub { 

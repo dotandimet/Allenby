@@ -6,16 +6,16 @@ use Mojolicious::Lite;
 use File::Basename 'dirname';
 use File::Spec;
 
-get '/slide/:id' => (id => qr/(\d+)/) => sub {
+get '/slide/:id' => [id => qr/(\d+)/] => sub {
     my ($self) = @_;
-    $self->get_slide()
+    get_slide($self)
       || die "No slide found";
 } => 'slide/show';
 
-get '/slide/:id/edit' => (id => qr/(\d+)/) => sub {
+get '/slide/:id/edit' => [id => qr/(\d+)/] => sub {
     my ($self) = @_;
     $self->stash(slide => Allenby::Model::Slide->new)
-      unless ($self->get_slide());
+      unless (get_slide($self));
 } => 'edit';
 
 get '/slide/' => 'sorter';
@@ -34,7 +34,7 @@ post '/slide/reorder' => sub {    #slide#reorder
 
 post '/slide/save' => sub {
     my ($self) = @_;
-    my $id = $self->get_slide;
+    my $id = get_slide($self);
     my $slide =
       ($id)
       ? $self->stash('slide')

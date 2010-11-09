@@ -64,7 +64,7 @@ sub load {
     $self->path($path) if (defined $path && -r $path);
     my $file = Mojo::Asset::File->new(path => $self->path);
     $str = $file->slurp;
-    my $arr = $self->json->decode(b($str));
+    my $arr = $self->json->decode($str);
     croak "Error parsing: ", $self->json->error if ($self->json->error);
     my $pos = 1;
     foreach my $s (@$arr) {
@@ -132,7 +132,7 @@ sub add {
         croak "Can't add slide from @args\n";
     }
     push @{$self->slides}, $slide;
-    return 1+scalar @{$self->slides};
+    return scalar @{$self->slides};
 }
 
 sub reorder {
