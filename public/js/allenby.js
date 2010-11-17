@@ -49,7 +49,7 @@ $( function(){
             var text = $selected.html();
             $.post('/slide/' + pos + '/copy', { 'text': text, notes: '', label: '' },
             function(){ 
-                alert(pos + "\n" + text);
+                // alert(pos + "\n" + text);
                 $selected.clone().insertBefore($selected).trigger('click');
             $('.sorter').sortable().trigger('stop');
             });
@@ -61,7 +61,7 @@ $( function(){
             var text = $selected.html();
             $.post('/slide/' + pos + '/cut', { 'text': text, notes: '', label: '' },
             function(data){ 
-                alert(pos + "\n" + data);
+                // alert(pos + "\n" + data);
                 $selected.fadeOut().remove();
             $('.sorter').sortable().trigger('stop');
             });
