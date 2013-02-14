@@ -13,14 +13,16 @@ sub startup {
     # Routes
     my $r = $self->routes;
     
-    my $rs = $r->waypoint('/slide/:id', id => qr/(\d+)/)
-               ->to(controller => 'slide', action => 'show')
-               ->name('show');
+    my $rs = $r->route('/slide/:id', id => qr/(\d+)/)
+               ->to(controller => 'slide', action => 'show');
+    $rs->route('/')->name('show'); # default action
+    # other actions
     $rs->route('/edit')->to(action => 'edit')->name('edit');
     $rs->route('/copy')->to(action => 'copy')->name('copy');
     $rs->route('/cut')->to(action => 'cut')->name('cut');
+    
+    # different route - no slide id required:
     $r->route('/slide/')->to('slide#sorter')->name('sorter');
-
     $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');
     $r->route('/slide/add')->to('slide#edit');
     $r->route('/slide/save')->to('slide#save')->name('save');
