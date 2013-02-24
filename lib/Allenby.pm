@@ -27,7 +27,9 @@ sub startup {
     $r->route('/slide/add')->to('slide#edit');
     $r->route('/slide/save')->to('slide#save')->name('save');
 
-    $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
+    $r->route('/slides/dz')->to('slide#dzslides')->name('dzslides');
+
+    # $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
 
     # Load the Model:
     my $presentation = Allenby::Model::Slides->new();

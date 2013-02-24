@@ -10,11 +10,11 @@ $( function(){
                                                 });
                                             } );
                                     } } ).disableSelection();
-        $('.sorter .slide').dblclick( function() {
+        $('.sorter .slide').on('dblclick', function() {
                 var id = $(this).attr('id');
                 window.location = '/slide/' + id;
         } )
-        .live('click', function() {
+        .on('click', function() {
          $(this).addClass('selected')
          .siblings().each(function(){ $(this).removeClass('selected'); });
         });

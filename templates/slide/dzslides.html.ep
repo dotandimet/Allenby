@@ -1,0 +1,7 @@
+% layout 'dzslides';
+% for (my $idx = 1; $idx <= $show->count; $idx++) {
+% my $slide = $show->at($idx);
+  <section>
+	<%== $slide->html %>
+</section>
+% }
