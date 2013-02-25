@@ -1,187 +1,37 @@
 package Allenby::Model::Slides;
 
-package Allenby::Model::Slide;
-use base 'Mojo::Base';
-use Text::Markdown 'markdown';
 use warnings;
 use strict;
 
-__PACKAGE__->attr([qw(text notes label)] => sub { '' });
-__PACKAGE__->attr(comments => sub { [] });
-__PACKAGE__->attr(set => undef);
-__PACKAGE__->attr(pos => 0);
+use Mojo::Base '-base';
 
-sub html {
-    return markdown shift->text;
-}
+use Text::Markdown 'markdown';
 
-sub hashref {
-    my ($self) = @_;
-    return {
-        text  => $self->text,
-        notes => $self->notes,
-        label => $self->label
-    };
-}
-
-sub next {
-    my ($self) = @_;
-    my $next = $self->pos + 1;
-    $next = 1 if ($next > $self->set->count);
-    return $next;
-}
-
-sub prev {
-    my ($self) = @_;
-    my $prev = $self->pos - 1;
-    $prev = $self->set->count if ($prev < 1);
-    return $prev;
-}
-
-sub before {
-    my ($self, $before_this) = @_;
-    my $set = $self->set->slides;
-    my $idx = $self->pos - 1;
-    splice(@$set, $idx, 1); # cut myself out
-    splice(@$set, $before_this - 1, 0, $self); # stick myself in
-    return $self;
-}
-
-package Allenby::Model::Slides;
-use base 'Mojo::Base';
-use Mojo::JSON;
-use Mojo::Asset::File;
-use Mojo::ByteStream 'b';
-use Carp qw(croak);
-use Scalar::Util qw(blessed);
-__PACKAGE__->attr(slides => sub { [] });
-__PACKAGE__->attr(json => sub { Mojo::JSON->new() });
-__PACKAGE__->attr(path => 'slides.json');
+has ['path', 'text', 'slides']; 
 
 sub load {
-    my ($self, $path) = @_;
-    my $str;
-    $self->path($path) if (defined $path && -r $path);
-    my $file = Mojo::Asset::File->new(path => $self->path);
-    $str = $file->slurp;
-    my $arr = $self->json->decode($str);
-    croak "Error parsing: ", $self->json->error if ($self->json->error);
-    my $pos = 1;
-    foreach my $s (@$arr) {
-        push @{ $self->slides }, 
-            Allenby::Model::Slide->new(%$s, set => $self, pos => $pos++);
-    }
-    return $self;
-}
-
-sub store {
-    my ($self, $path) = @_;
-    $self->path($path) if (defined $path && -r $path);
-    my $arr = [];
-    push @$arr, $_->hashref for (@{$self->slides});
-    my $str = $self->json->encode($arr);
-    croak "Error writing: ", $self->json->error if ($self->json->error);
-    my $file = Mojo::Asset::File->new();
-    $file->add_chunk($str);
-    $file->move_to($self->path);
-    return $str;
-}
-
-sub first {
-    my ($self) = @_;
-    return $self->at(1);
-}
-
-sub last {
-    my ($self) = @_;
-    return $self->at($self->count);
-}
-
-sub count {
-    my ($self) = @_;
-    return scalar @{$self->slides};
-}
-
-sub at {
-    my ($self, $pos) = @_;
-    my $slides = $self->slides;
-    my $i = $pos - 1; # position => index
-    croak "$pos is either not a number or out of bounds" if ($i < 0 || $i > $#$slides);
-    return $slides->[$i];
-}
-
-sub add {
-    my ($self, @args) = @_;
-    my $slide;
-    my %extras = ( set => $self, pos => $self->count );
-    if (ref $args[0]) {
-        if (blessed($args[0]) && $args[0]->isa('Allenby::Model::Slide')) {
-            $slide = $args[0];
-            # add extras:
-            $slide->set($self);
-            $slide->pos($self->count);
-        }
-        if (ref $args[0] eq 'HASH') {
-            $slide = Allenby::Model::Slide->new(%{$args[0]}, %extras);
-        }
-    }
-    elsif (@args % 2 == 0) {
-        $slide = Allenby::Model::Slide->new(@args, %extras);
-    }
-    else {
-        croak "Can't add slide from @args\n";
-    }
-    push @{$self->slides}, $slide;
-    return scalar @{$self->slides};
-}
-
-sub reorder {
-    my ($self, $neworder) = @_;
-    my $i = 1;
-    my @arr = map { $self->at($_)->pos($i++) } @$neworder;
-    $self->slides(\@arr);
-}
-
-sub write_showmetheslides {
-    my ($self, $filename) = @_;
-    open my $file, ">:encoding(UTF-8)", $filename
-      or die "Can't write slides to $filename: $!";
-      print $file "\n@\n"; # skip metadata section
-    foreach my $slide (@{$self->slides}) {
-       print $file $slide->text, "\n@\n"; 
-    }
-    close($file);
-}
-
-sub load_showmetheslides {
-    my ($self, $filename) = @_;
-    open my $file, "<:encoding(UTF-8)", $filename
-      or die "Can't read slides from $filename: $!";
+	my $self = shift;
+	my $path = ($_[1]) ? shift : $self->path;
+  if (defined $path && -r $path) {
+		open my $file, "<:encoding(UTF-8)", $path
+      or die "Can't read slides from path: $!";
     my $slurp = do { local $/; <$file> };
-
-    $slurp .= '@';
-
-    my $metadata = {};
-    if ($slurp =~ s/^(.*?)\s*(?=@)//s) {
-        foreach (split /\n/ => $1) {
-            my ($name, $value) = ($_ =~ m/(.*?):\s*(.*)/);
-            $metadata->{lc $name} = $value;
+		$self->text($slurp);
+		my $html	= markdown $self->text;
+		my $dom  = Mojo::DOM->new("$html");		
+      # Rewrite code blocks for syntax highlighting
+      $dom->find('pre code')->each(
+        sub {
+          my $e = shift;
+          return if $e->all_text =~ /^\s*\$\s+/m;
+          my $attrs = $e->attrs;
+          my $class = $attrs->{class};
+          $attrs->{class} = defined $class ? "$class prettyprint" : 'prettyprint';
         }
-    }
-
-    my @slides;
-    my $pos = 1;
-    while ($slurp =~ s/^\@(.*?)(?=^\@)//ms) {
-        my $content = $1;
-
-        $content =~ s/^\s+//;
-        $content =~ s/\s+$//;
-
-        push @{ $self->slides }, 
-            Allenby::Model::Slide->new(text => $content, set => $self, pos => $pos++);
-    }
-    return $self;
-
+      );
+		my @slides = split(/\<hr\s*\/\>/, "$dom");
+		$self->slides(\@slides);
+  }
 }
 
 1;

@@ -33,3 +33,13 @@ a { outline: 0; }
 .sorter { }
 .sorter .slide { font-size: 0.8em; width: 200px; height: 200px; padding: 10px; margin: 5px; list-style:none; display: block; float: left; }
 .selected { border: solid gold 2px; }
+
+.slide pre {
+	width: 90%;
+	padding: 0.6em;
+	overflow: auto;
+  background-color: #eee;
+  background: url(/mojo/pinstripe.gif);
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

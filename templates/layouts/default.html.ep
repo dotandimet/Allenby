@@ -2,7 +2,9 @@
     <head><meta charset="utf-8"><title>Welcome to the Mojolicious Web Framework!</title>
     <link rel="stylesheet" type="text/css" media="all" href="/css/ui-darkness/jquery-ui-1.10.1.custom.css" />
     <link rel="stylesheet" type="text/css" media="all" href="/css/allenby.css" />
-    </head>
+  <link href="/mojo/prettify/prettify-mojo.css" media="screen" rel="stylesheet" />
+    <script src="/mojo/prettify/prettify.js"></script>
+     </head>
     <body><%== content %>
        <script type="text/javascript" src="/mojo/jquery/jquery.js"> </script>
         <script type="text/javascript" src="/js/jquery-ui-1.10.1.custom.min.js"> </script>

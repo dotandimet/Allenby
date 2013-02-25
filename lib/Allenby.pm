@@ -3,8 +3,12 @@ package Allenby;
 use strict;
 use warnings;
 
-use base 'Mojolicious';
+use Mojo::Base 'Mojolicious';
+
 use Allenby::Model::Slides;
+use File::Basename;
+
+has 'talks' => sub { {} };
 
 # This method will run once at server start
 sub startup {
@@ -12,37 +16,17 @@ sub startup {
 
     # Routes
     my $r = $self->routes;
-    
-    my $rs = $r->route('/slide/:id', id => qr/(\d+)/)
-               ->to(controller => 'slide', action => 'show');
-    $rs->route('/')->name('show'); # default action
-    # other actions
-    $rs->route('/edit')->to(action => 'edit')->name('edit');
-    $rs->route('/copy')->to(action => 'copy')->name('copy');
-    $rs->route('/cut')->to(action => 'cut')->name('cut');
-    
-    # different route - no slide id required:
-    $r->route('/slide/')->to('slide#sorter')->name('sorter');
-    $r->route('/slide/reorder')->via('post')->to('slide#reorder')->name('reorder');
-    $r->route('/slide/add')->to('slide#edit');
-    $r->route('/slide/save')->to('slide#save')->name('save');
-
-    $r->route('/slides/dz')->to('slide#dzslides')->name('dzslides');
-
-    # $r->route('/')->to(cb => sub { shift->redirect_to('sorter'); });
-
-    # Load the Model:
-    my $presentation = Allenby::Model::Slides->new();
-    my $path = File::Spec->catpath($self->home, 'slides.json');
-    my $backuppath = File::Spec->catpath($self->home, 'slides.json.current');
-    if (!-e $backuppath) {
-        $presentation->load($path);
-        $presentation->path($backuppath); 
-    }
-    else {
-        $presentation->load($backuppath);
-    }
-    $self->defaults(show => $presentation);
+    $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.mkd'));
+ 	foreach my $talk (glob($self->home . '/*.mkd')) {
+		$self->log->debug("loading $talk");
+		my $name = basename($talk, '.mkd');
+		$self->log->debug("talk name is $name");
+		$self->talks->{$name} =
+			Allenby::Model::Slides->new(path => $talk)->load();
+	}
+	
+	$r->route('/')->to('slide#shows')->name('shows');
+	$r->route('/show/(:talk)/(:style)')->to('slide#show')->name('show');
 
     $self->helper( button => sub { 
         my $c = shift;
