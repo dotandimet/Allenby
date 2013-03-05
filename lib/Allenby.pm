@@ -9,7 +9,9 @@ use Allenby::Model::Slides;
 use File::Basename;
 
 has 'talks' => sub { {} };
-
+has 'talk_dirs' => sub {
+	[ shift->home, $ENV{'HOME'} . '/Dropbox/talks/IPW2013' ]
+};
 # This method will run once at server start
 sub startup {
     my $self = shift;
@@ -17,7 +19,7 @@ sub startup {
     # Routes
     my $r = $self->routes;
     $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.mkd'));
- 	foreach my $talk (glob($self->home . '/*.mkd')) {
+ 	foreach my $talk (map { glob($_ . '/*.mkd') } @{ $self->talk_dirs } ) {
 		$self->log->debug("loading $talk");
 		my $name = basename($talk, '.mkd');
 		$self->log->debug("talk name is $name");

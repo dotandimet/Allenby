@@ -6,6 +6,7 @@ $( function(){
 				window.current = parseInt(document.location.hash.substr(1)) || 0;
 				$('div.slide.show').removeClass('show').addClass('hide');
 				$('div.slide:eq(' + window.current + ')').removeClass('hide').addClass('show');
+
 			};
            $(document).keyup(function(event){
 							console.log(event.which);

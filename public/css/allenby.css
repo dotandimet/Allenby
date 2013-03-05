@@ -14,19 +14,19 @@ a { outline: 0; }
     padding: 1em; 
     overflow: hidden; 
     border: solid silver 2px;
-    font-size: 2em; 
     }
 .slide.show {
     height: auto; 
     width: auto; 
     position: absolute;
     top: 0;
-    bottom: 1em;
+/*    bottom: 1em; */
+		bottom: 0;
     left: 0;
     right: 0;
     -webkit-scale: 100%;
 }
-.slide pre { font-size: 80%; }
+.slide pre { font-size: 60%; }
 .slide form { font-size: 40%; }
 .slide textarea { width: 40em; }
 
@@ -42,4 +42,13 @@ a { outline: 0; }
   background: url(/mojo/pinstripe.gif);
   -moz-border-radius: 5px;
   border-radius: 5px;
+}
+
+.slide img {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	opacity: 0.8;
+	z-index: 0;
 }
