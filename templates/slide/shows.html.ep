@@ -1,7 +1,7 @@
 % layout 'default';
 <ul>
 %for my $show (@$shows) {
-%	for my $style (qw(dz my)) {
+%	for my $style (qw(dz my reveal)) {
 <li><%= link_to $show => 'show' => { talk => $show, style => $style} %></li>
 % }
 % }

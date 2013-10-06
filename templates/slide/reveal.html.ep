@@ -1,0 +1,6 @@
+% layout 'reveal';
+% for my $slide (@$show) {
+  <section>
+	<%== $slide %>
+</section>
+% }

@@ -16,7 +16,10 @@ sub show {
 	my ($talk) = $self->stash('talk');
 	my $style = $self->stash('style') || 'my';
 	my $show = $self->app->talks->{$talk}->slides; 
-	my $template = ($style eq 'dz') ? 'slide/dzslides' : 'default';
+  my $template =
+    ($style eq 'dz')     ? 'slide/dzslides'
+    : ($style eq 'reveal') ? 'slide/reveal'
+    :                        'slide/show';
 	$self->render(template => $template, show => $show);
 }
 

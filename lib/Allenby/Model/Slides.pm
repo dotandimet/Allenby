@@ -24,7 +24,7 @@ sub load {
         sub {
           my $e = shift;
           return if $e->all_text =~ /^\s*\$\s+/m;
-          my $attrs = $e->attrs;
+          my $attrs = $e->attr;
           my $class = $attrs->{class};
           $attrs->{class} = defined $class ? "$class prettyprint" : 'prettyprint';
         }
