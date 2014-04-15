@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/code/Allenby/public/css/allenby.css.html</title>
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v12">
+<meta name="syntax" content="css">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="zenburn">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #dcdccc; background-color: #3f3f3f; }
+body { font-family: monospace; color: #dcdccc; background-color: #3f3f3f; }
+* { font-size: 1em; }
+.StorageClass { color: #c3bf9f; font-weight: bold; }
+.String { color: #cc9393; }
+.Comment { color: #7f9f7f; font-style: italic; }
+.Special { color: #cfbfaf; }
+.Statement { color: #e3ceab; }
+.Type { color: #dfdfbf; font-weight: bold; }
+.Number { color: #8cd0d3; }
+.Constant { color: #dca3a3; font-weight: bold; }
+.Function { color: #efef8f; }
+-->
+</style>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Statement">html</span><span class="Special">,</span> <span class="Statement">body</span> <span class="Function">{</span> <span class="StorageClass">padding</span>: <span class="Number">0</span>; <span class="StorageClass">margin</span>: <span class="Number">0</span>; <span class="StorageClass">width</span>: <span class="Number">100%</span>; <span class="StorageClass">height</span>: <span class="Number">100%</span>; <span class="StorageClass">position</span>: <span class="Type">relative</span>; <span class="Function">}</span>
+<span class="Statement">body</span> <span class="Function">{</span> <span class="StorageClass">background</span>: <span class="Constant">black</span>; <span class="StorageClass">color</span>: <span class="Constant">white</span>; <span class="StorageClass">font-family</span>: <span class="Type">arial</span>, san-<span class="Type">serif</span>; <span class="StorageClass">font-size</span>: <span class="Number">16px</span>; <span class="Function">}</span>
+<span class="Statement">body</span> <span class="Function">{</span>
+    <span class="StorageClass">background-image</span>: <span class="Comment">-moz-</span><span class="Function">radial-gradient(</span><span class="Constant"> 50% 30% 90deg, circle, #006EA0 0%, #304160 600px</span><span class="Function">)</span>;
+    <span class="StorageClass">background-image</span>: <span class="Comment">-webkit-</span>gradient(radial, <span class="Number">50%</span> <span class="Number">30%</span>, <span class="Number">0</span>, <span class="Number">50%</span> <span class="Number">30%</span>, <span class="Number">600</span>, from(<span class="Constant">#006EA0</span>), to(<span class="Constant">#304160</span>));
+    <span class="StorageClass">background-color</span>: <span class="Constant">#006EA0</span>;
+    <span class="StorageClass">text-shadow</span>: <span class="Number">0</span> <span class="Number">1px</span> <span class="Number">2px</span> <span class="Constant">#777777</span>;
+<span class="Function">}</span>
+<span class="Function">.toolbar</span> <span class="Function">{</span> <span class="StorageClass">padding</span>: <span class="Number">3px</span>; <span class="StorageClass">overflow</span>: <span class="Type">hidden</span>; <span class="StorageClass">position</span>: <span class="Type">fixed</span>; <span class="StorageClass">bottom</span>: <span class="Number">0</span>; <span class="StorageClass">height</span>: <span class="Number">3em</span>; <span class="Function">}</span>
+<span class="Function">.notes</span> <span class="Function">{</span> <span class="StorageClass">float</span>: <span class="Type">right</span>; <span class="Function">}</span>
+<span class="Statement">a</span> <span class="Function">{</span> <span class="StorageClass">outline</span>: <span class="Number">0</span>; <span class="Function">}</span>
+<span class="Function">.slide</span> <span class="Function">{</span>
+    <span class="StorageClass">margin</span>: <span class="Type">auto</span>;
+    <span class="StorageClass">padding</span>: <span class="Number">1em</span>;
+    <span class="StorageClass">overflow</span>: <span class="Type">hidden</span>;
+    <span class="StorageClass">border</span>: <span class="Type">solid</span> <span class="Constant">silver</span> <span class="Number">2px</span>;
+    <span class="Function">}</span>
+<span class="Function">.slide.show</span> <span class="Function">{</span>
+    <span class="StorageClass">height</span>: <span class="Type">auto</span>;
+    <span class="StorageClass">width</span>: <span class="Type">auto</span>;
+    <span class="StorageClass">position</span>: <span class="Type">absolute</span>;
+    <span class="StorageClass">top</span>: <span class="Number">0</span>;
+<span class="Comment">/*    bottom: 1em; */</span>
+    <span class="StorageClass">bottom</span>: <span class="Number">0</span>;
+    <span class="Type">left</span>: <span class="Number">0</span>;
+    <span class="Type">right</span>: <span class="Number">0</span>;
+    <span class="Comment">-webkit-</span>scale: <span class="Number">100%</span>;
+<span class="Function">}</span>
+<span class="Function">.slide</span> <span class="Statement">pre</span> <span class="Function">{</span> <span class="StorageClass">font-size</span>: <span class="Number">60%</span>; <span class="Function">}</span>
+<span class="Function">.slide</span> <span class="Statement">form</span> <span class="Function">{</span> <span class="StorageClass">font-size</span>: <span class="Number">40%</span>; <span class="Function">}</span>
+<span class="Function">.slide</span> <span class="Statement">textarea</span> <span class="Function">{</span> <span class="StorageClass">width</span>: <span class="Number">40em</span>; <span class="Function">}</span>
+
+<span class="Function">.sorter</span> <span class="Function">{</span> <span class="Function">}</span>
+<span class="Function">.sorter</span> <span class="Function">.slide</span> <span class="Function">{</span> <span class="StorageClass">font-size</span>: <span class="Number">0.8em</span>; <span class="StorageClass">width</span>: <span class="Number">200px</span>; <span class="StorageClass">height</span>: <span class="Number">200px</span>; <span class="StorageClass">padding</span>: <span class="Number">10px</span>; <span class="StorageClass">margin</span>: <span class="Number">5px</span>; <span class="StorageClass">list-style</span>:<span class="Type">none</span>; <span class="StorageClass">display</span>: <span class="Type">block</span>; <span class="StorageClass">float</span>: <span class="Type">left</span>; <span class="Function">}</span>
+<span class="Function">.selected</span> <span class="Function">{</span> <span class="StorageClass">border</span>: <span class="Type">solid</span> <span class="Constant">gold</span> <span class="Number">2px</span>; <span class="Function">}</span>
+
+<span class="Function">.slide</span> <span class="Statement">pre</span> <span class="Function">{</span>
+  <span class="StorageClass">width</span>: <span class="Number">90%</span>;
+  <span class="StorageClass">padding</span>: <span class="Number">0.6em</span>;
+  <span class="StorageClass">overflow</span>: <span class="Type">auto</span>;
+  <span class="StorageClass">background-color</span>: <span class="Constant">#eee</span>;
+  <span class="StorageClass">background</span>: <span class="Function">url(</span><span class="String">/mojo/pinstripe.gif</span><span class="Function">)</span>;
+  <span class="Comment">-moz-</span><span class="StorageClass">border-radius</span>: <span class="Number">5px</span>;
+  <span class="StorageClass">border-radius</span>: <span class="Number">5px</span>;
+<span class="Function">}</span>
+
+<span class="Function">.slide</span> <span class="Statement">img</span> <span class="Function">{</span>
+  <span class="StorageClass">position</span>: <span class="Type">absolute</span>;
+  <span class="StorageClass">padding</span>: <span class="Number">0</span>;
+  <span class="StorageClass">margin</span>: <span class="Number">0</span>;
+  <span class="StorageClass">height</span>: <span class="Number">100%</span>;
+  <span class="StorageClass">opacity</span>: <span class="Number">0.8</span>;
+  <span class="StorageClass">z-index</span>: <span class="Number">0</span>;
+<span class="Function">}</span>
+</pre>
+</body>
+</html>

@@ -15,9 +15,8 @@ has 'talk_dirs' => sub {
 # This method will run once at server start
 sub startup {
     my $self = shift;
-
-    # Routes
-    my $r = $self->routes;
+		my $conf = $self->plugin('Config');
+		
     $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.mkd'));
  	foreach my $talk (map { glob($_ . '/*.mkd') } @{ $self->talk_dirs } ) {
 		$self->log->debug("loading $talk");
@@ -27,6 +26,9 @@ sub startup {
 			Allenby::Model::Slides->new(path => $talk)->load();
 	}
 	
+  # Routes
+  my $r = $self->routes;
+
 	$r->route('/')->to('slide#shows')->name('shows');
 	$r->route('/show/(:talk)/(:style)')->to('slide#show')->name('show');
 
