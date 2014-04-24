@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Mojo::Base '-base';
-has ['path', 'text', 'slides']; 
+has ['path', 'text', 'slides', 'title'];
 
 use Text::Markdown 'markdown';
 
@@ -27,10 +27,14 @@ sub load {
           $attrs->{class} = defined $class ? "$class prettyprint" : 'prettyprint';
         }
       );
-    my @slides = split(/\<hr\s*\/\>/, "$dom");
+    my @slides = split(/\<hr\s*\/*\>/, "$dom");
     $self->slides(\@slides);
+    $self->title(Mojo::DOM->new($slides[0])->all_text);
   }
 }
 
-1;
+sub count {
+  scalar @{shift->slides};
+}
 
+1;
