@@ -1,8 +1,14 @@
-% layout 'default';
+%=form_for 'choose' => (method => 'post' ) => begin
 <ul>
 %for my $show (sort keys %$shows) {
-%	for my $style (qw(dz my)) {
-<li><%= link_to $shows->{$show} => 'show' => { talk => $show, style => $style} %></li>
-% }
+<li>
+%= label_for 'talk' => begin
+%= radio_button 'talk' => $show
+%= $shows->{$show}
+% end
+</li>
 % }
 </ul>
+%= select_field 'style' => $designs
+%= submit_button 'start presentation'
+% end

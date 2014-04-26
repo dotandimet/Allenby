@@ -1,6 +1,3 @@
-
-***
-
 # Mojolicious
 ## Duct Tape for the HTML5 Web
 
