@@ -7,7 +7,7 @@ use Mojo::Base 'Mojolicious';
 
 use Allenby::Model::Slides;
 use File::Basename qw(basename dirname);
-use FIle::Spec;
+use File::Spec;
 
 has 'talks' => sub { {} };
 has 'talk_dirs' => sub { [] };
