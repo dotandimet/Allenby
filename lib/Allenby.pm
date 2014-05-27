@@ -42,10 +42,10 @@ sub startup {
     }
     $self->log->debug("Designs:", $self->dumper($self->designs));
     # add talks
-    $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.mkd'));
-   foreach my $talk (map { glob($_ . '/*.mkd') } @{ $self->talk_dirs } ) {
+    $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.md'));
+   foreach my $talk (map { glob($_ . '/*.md') } @{ $self->talk_dirs } ) {
     $self->log->debug("loading $talk");
-    my $name = basename($talk, '.mkd');
+    my $name = basename($talk, '.md');
     $self->log->debug("talk name is $name");
     my $slideshow =
       Allenby::Model::Slides->new(path => $talk)->load();
@@ -56,6 +56,10 @@ sub startup {
     if (-d $extras_dir) {
       push @{$self->static->paths}, $extras_dir;
     }
+   my $demos_file = File::Spec->catfile(dirname($talk), 'demos.conf');
+   if (-r $demos_file) {
+    
+  }
   }
 
   # Routes
