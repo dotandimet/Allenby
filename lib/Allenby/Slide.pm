@@ -8,18 +8,18 @@ use base 'Mojolicious::Controller';
 
 sub shows {
   my ($self) = @_;
-  my $slide = $self->render(
+  my $slide = $self->render_to_string(
       'shows' => {
           map { $_ => $self->app->talks->{$_}->title }
             keys %{$self->app->talks}
       },
-      'designs' => [keys $self->app->designs],
-      template => 'slide/shows', partial => 1
+      'designs' => [keys %{$self->app->designs}],
+      template => 'slide/shows'
   );
   my $show = [ $slide ];
   my $style = $self->stash('style') || 'mine';
   my $template = "$style/main";
-  $self->render(template => $template, show => $show);
+  $self->render(template => $template, show => $show, title => 'slide listing');
 }
 
 sub show {
@@ -28,7 +28,7 @@ sub show {
   my $show = $self->app->talks->{$talk}->slides;
   my $style = $self->stash('style') || 'mine';
   my $template = "$style/main";
-  $self->render(template => $template, show => $show);
+  $self->render(template => $template, show => $show, title => $self->app->talks->{$talk}->title);
 }
 
 sub choose {
