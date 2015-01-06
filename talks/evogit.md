@@ -3,6 +3,7 @@
 ## Making Revision Control Exciting Again
 
 ---
+## Agenda
 
 - Why switch from svn to git
 - Setup
@@ -220,13 +221,27 @@ Only `git push` sends the changes to the server.
 
 ## Daily commands – new features
 
-    git checkout
+---
 
-Resets all changes in your working directory to previous version
+## History search
+
+Find commits where text was added/changed
 
     git log -S "text_added" file... 
 
-Find commits where text was added/changed
+You can also search by date, file path modified, etc.
+
+## Reseting state
+
+Resets all changes in your working directory to previous version
+
+    git checkout
+
+Reset file to specific version:
+
+    git checkout 1fc6392 dbtools/refresh_taxonomy.pl
+
+
 
 ---
 
@@ -236,22 +251,25 @@ Find commits where text was added/changed
 - In git, you can maintain multiple distinct branches in your local repository.
 - You can create, delete and merge different branches.
 - You can push a branch to the server (or pull a specific branch from it).
+- The default branch in git is called **master** (unless you want something
+  different).
 
 ---
 
 # Working with branches
 
-    git branch --list
-
-Show existing branches (current one will be highlighted)
+Create new branch xxx and switch to it
 
     git checkout -b xxx
 
-Create new branch xxx and switch to it
+Show existing branches (current one will be highlighted)
 
-    git merge branch1
+    git branch --list
+
 
 Merge branch1 into current branch
+
+    git merge branch1
 
 ---
 
