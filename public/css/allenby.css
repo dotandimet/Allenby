@@ -26,10 +26,11 @@ a { outline: 0; }
     right: 0;
     -webkit-scale: 100%;
 }
+/*
 .slide pre { font-size: 60%; }
 .slide form { font-size: 40%; }
 .slide textarea { width: 40em; }
-
+*/
 .sorter { }
 .sorter .slide { font-size: 0.8em; width: 200px; height: 200px; padding: 10px; margin: 5px; list-style:none; display: block; float: left; }
 .selected { border: solid gold 2px; }
