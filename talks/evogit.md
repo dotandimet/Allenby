@@ -16,7 +16,7 @@
 
 - **More Powerful**
     - Designed for distributed work
-    - Tracks changes, not revisions of files
+    - Tracks changes to whole project, not revisions of files
 - **More Popular**
     - Linux, [github.com](https://github.com) - many online resources, features, ecosystem
 
@@ -24,9 +24,10 @@
 
 ## More Powerful
 
-- All data is local (copies *entire* repository
+- Local copy contains *entire* repository with all history
 - Faster operations
 - Smaller directories
+- **Better Tools**
 - Cheap and easy branching (because it only tracks the changes).
 
 - [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X 
@@ -44,7 +45,9 @@
 
 ---
 
-- Corollary: more complex, but more documentation, help and tutorials.
+## Caveats
+
+- More complex, but more documentation, help and tutorials.
 - You can solve problems with git that you couldn't even create with subversion ;P
 
 ---
@@ -72,23 +75,23 @@ Login to evogit (Evogene password)
 
 ---
 
-## Using Git
+# Using Git
 
 ---
 
-## Clone
+## Checkout / Clone
+
+Subversion checkout the central repository:
+
+    svn co http://evogit/subversion/unity/trunk
 
 Clone the central repository:
 
     git clone git@evogit.evogene.internal:cg/unity.git
 
-Subversion equivalent:
-
-    svn co http://evogit/subversion/unity/trunk
-
 ---
 
-### Update from server
+## Update from server
 
 Subversion
 
@@ -100,19 +103,19 @@ git
 
 ---
 
-### Add new files:
+## Add new files:
 
 Subversion
 
-    svn add newfile1 ...
+    svn add file1 dir1 ...
 
 git
 
-    git add newfile1 ...
+    git add file1 dir1 ...
 
 ---
 
-### Remove files:
+## Remove files:
 
 Subversion
 
@@ -124,7 +127,7 @@ git
 
 ---
 
-### Commit:
+## Commit:
 
 Subversion
 
@@ -132,10 +135,11 @@ Subversion
 
 `svn commit` will update the server.
 
+If no argument is specified, the current directory is commited.
+
 git
 
-    git add file1 ...
-    git commit -m 'blah' ...
+    git commit -a -m 'blah'
     git push -u
 
 `git commit` records the change in the local repository.
@@ -144,8 +148,23 @@ Only `git push` sends the changes to the server.
 More steps because you track your history locally, not only on the server.
 
 ---
+## Break up a commit
 
-## Daily commands – new features
+`git commit -a` will `add` all changed files to a "staging area" and `commit`
+these changes to your local repository. The `-a` flag is a shortcut for two git commands.
+
+You can break down this process to make 2 unrelated changes into seperate
+commits:
+
+    git add foo.css bar.html ...
+    git commit -m 'changed header...'
+
+    git add g2c.pl
+    git commit -m 'fix bug in loader script...'
+
+---
+
+# Daily commands – new features
 
 ---
 
@@ -169,6 +188,13 @@ Reset file to specific version:
 
 ---
 
+git status, diff, log, show
+git checkout version file - or/and?
+update servers - how does it work? We update the history, not files.
+git reset, git commit --amend ...
+stash (before/after branch)
+
+---
 ## Branches
 
 - A *branch* is a distinct line of revisions/commits.
@@ -180,7 +206,7 @@ Reset file to specific version:
 
 ---
 
-# Working with branches
+## Working with branches
 
 Create new branch xxx and switch to it
 
@@ -196,7 +222,117 @@ Merge branch1 into current branch
 
 ---
 
+## Remotes
+
+With git you can have multiple remote repositories.
+Usually we will work with only one - evogit, which is aliased to `origin` 
+(this is the default by convention, like `master` for the default branch).
+
+To see all the remote repositories
+
+     git remote -v
+
+---
+
+## Remote branches
+
+
+    git pull branchname
+
+Fetch and merge a remote branch.
+
+    git push origin feature_branch
+
+Push your local branch to the remote repository `origin`
+
+    git push -a
+
+Push all local branches to remote repository `origin`
+
+    git pull -a
+
+Pull all remote branches
+
+---
+
+# Merging
+
+---
+
+## Merging with remote branches
+
+Every time you `pull` or `push`, you merge your local *master* branch with the
+remote *master* branch.
+
+The `-u` flag lets git know you are tracking the remote branch, so it will
+tell you how many commits ahead/behind of it your local branch is.
+
+---
+
+## Merge
+
+Whenever git merges two branches, it find the latest common point in their
+history and does a **three-way merge**
+
+---
+
+## Conflict
+
+    dotan@boots:pilot liza|MERGING$ git status
+    # On branch liza
+    # Unmerged paths:
+    #   (use "git add/rm <file>..." as appropriate to mark resolution)
+    #
+    #       both modified:      cgi/ureport
+    #
+    no changes added to commit (use "git add" and/or "git commit -a")
+    dotan@boots:pilot liza|MERGING$ 
+
+
+    dotan@boots:pilot liza|MERGING$ git diff
+    diff --cc cgi/ureport
+    index 11f6688,c7204e9..0000000
+    --- a/cgi/ureport
+    +++ b/cgi/ureport
+    @@@ -9,8 -9,8 +9,13 @@@ use UReportNG
+      
+      
+      my $MAKE_REPORT_OK                            = 'ok';
+    ++<<<<<<< HEAD
+    +our $ERR_INVALID_METADATA_JSON        = 'invalid metadata json';
+    +my $ERR_INVALID_REPORT_JSON           = 'invalid report json';
+    ++=======
+    + my $ERR_INVALID_METADATA_JSON = 'invalid metadata json';
+    + our $ERR_INVALID_REPORT_JSON          = 'invalid report json';
+    ++>>>>>>> elad
+      my $ERR_MAKE_REPORT                           = 'make_report() failed without dieing';
+      my $ERR_AT_REQUEST_INDEX              = 'at request index';
+      
+
+dotan@boots:pilot liza|MERGING$ git add !$
+dotan@boots:pilot liza|MERGING$ git add cgi/ureport
+dotan@boots:pilot liza|MERGING$ git status
+# On branch liza
+# Changes to be committed:
+#
+#       modified:   cgi/ureport
+#
+dotan@boots:pilot liza|MERGING$ git commit -m 'fix conflict'
+[liza fcce7e3] fix conflict
+dotan@boots:pilot liza$ git checkout elad
+Switched to branch 'elad'
+dotan@boots:pilot elad$ git merge liza
+Updating e67d947..fcce7e3
+Fast-forward
+ cgi/ureport |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+dotan@boots:pilot elad$ 
+
+
+
 # Moving Forward
+
+---
 
 ## Ongoing
 
@@ -213,43 +349,6 @@ Merge branch1 into current branch
 ---
 
 # Pilot
-
----
-
-### Setting up the git pilot
-
-    cd $HOME/work
-    git clone --branch pilot git@evogit.evogene.internal:cg/unity.git pilot
-
----
-
-### Testing environment
-
-    https://dora/${USER}p/cgi/miner.cgi ...
-
-For example
-
-    https://dora/lizaap/cgi/...
-
-configured to run scripts where
-
-    UNITY_ROOT = /home/users/bioinf/lizaa/work/pilot
-
-currently, only lizaa, eladm and nogah are supported in the Apache config.
-
----
-
-### Work
-
-    cd $HOME/work/pilot
-    git pull -u # to get updates
-    $EDITOR file1 file2 ...
-    git add file1 file2 ...
-    git commit -m 'commit message...'
-    git status
-    git pull -u
-    git push origin pilot # to update evogit
-
 
 ---
 
