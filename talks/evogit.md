@@ -12,18 +12,14 @@
 
 ---
 
-## Why Switch from Subversion to git
-
-- **More Powerful**
-    - Designed for distributed work
-    - Tracks changes to whole project, not revisions of files
-- **More Popular**
-    - Linux, [github.com](https://github.com) - many online resources, features, ecosystem
+# Why Switch from Subversion to git
 
 ---
 
 ## More Powerful
 
+- Designed for distributed work
+- Tracks changes to whole project, not revisions of files
 - Local copy contains *entire* repository with all history
 - Faster operations
 - Smaller directories
@@ -41,12 +37,14 @@
 - Git is currently the most widely used version control system.
 - Linux, Perl, Eclipse, Gnome, KDE, PHP, Ruby on Rails, Mode.js, Go ....
 - Resources, features, documentation.
+- Linux, [github.com](https://github.com) - many online resources, features, ecosystem
 - Migration (from Subversion) is easy.
 
 ---
 
 ## Caveats
 
+- Simple migration from Subversion is one way
 - More complex, but more documentation, help and tutorials.
 - You can solve problems with git that you couldn't even create with subversion ;P
 
