@@ -48,7 +48,7 @@ sub startup {
     my $name = basename($talk, '.md');
     $self->log->debug("talk name is $name");
     my $slideshow =
-      Allenby::Model::Slides->new(path => $talk)->load();
+      Allenby::Model::Slides->new(path => $talk);
     $self->talks->{$name} = $slideshow;
     $self->log->debug("talk $name is called ", $slideshow->title,
      " and has ", $slideshow->count , " slides");
