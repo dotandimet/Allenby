@@ -16,29 +16,41 @@
 
 ---
 
-## More Powerful
-
-- Designed for distributed work
-- Tracks changes to whole project, not revisions of files
-- Local copy contains *entire* repository with all history
-- Faster operations
-- Smaller directories
-- **Better Tools**
-- Cheap and easy branching (because it only tracks the changes).
-
-- [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X 
-
----
-
 ## More Popular
 
 - Subversion was a good bet in 2005.
 - Things have moved on.
 - Git is currently the most widely used version control system.
-- Linux, Perl, Eclipse, Gnome, KDE, PHP, Ruby on Rails, Mode.js, Go ....
-- Resources, features, documentation.
+- Linux, Perl, Eclipse, PHP ...
+- Resources, Features, Documentation.
 - Linux, [github.com](https://github.com) - many online resources, features, ecosystem
 - Migration (from Subversion) is easy.
+
+---
+
+## More Powerful
+
+- **Distributed** Source Control
+- distributed > centralized
+- Local copy contains *entire* repository with all history
+- must be able to merge all sorts of divergence
+
+---
+
+![](/svn-vs-git.png)
+
+- Tracks changes to whole project, not revisions of files
+
+---
+
+- Faster operations
+- Smaller directories
+- **Better Tools**
+- Cheap and easy branching (because it only tracks the changes).
+
+---
+
+- [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X
 
 ---
 
@@ -170,7 +182,7 @@ commits:
 
 Find commits where text was added/changed
 
-    git log -S "text_added" file... 
+    git log -S "text_added" file...
 
 You can also search by date, file path modified, etc.
 
@@ -223,7 +235,7 @@ Merge branch1 into current branch
 ## Remotes
 
 With git you can have multiple remote repositories.
-Usually we will work with only one - evogit, which is aliased to `origin` 
+Usually we will work with only one - evogit, which is aliased to `origin`
 (this is the default by convention, like `master` for the default branch).
 
 To see all the remote repositories
@@ -284,7 +296,7 @@ history and does a **three-way merge**
     #       both modified:      cgi/ureport
     #
     no changes added to commit (use "git add" and/or "git commit -a")
-    dotan@boots:pilot liza|MERGING$ 
+    dotan@boots:pilot liza|MERGING$
 
 
     dotan@boots:pilot liza|MERGING$ git diff
@@ -293,8 +305,8 @@ history and does a **three-way merge**
     --- a/cgi/ureport
     +++ b/cgi/ureport
     @@@ -9,8 -9,8 +9,13 @@@ use UReportNG
-      
-      
+
+
       my $MAKE_REPORT_OK                            = 'ok';
     ++<<<<<<< HEAD
     +our $ERR_INVALID_METADATA_JSON        = 'invalid metadata json';
@@ -305,7 +317,7 @@ history and does a **three-way merge**
     ++>>>>>>> elad
       my $ERR_MAKE_REPORT                           = 'make_report() failed without dieing';
       my $ERR_AT_REQUEST_INDEX              = 'at request index';
-      
+
 
 dotan@boots:pilot liza|MERGING$ git add !$
 dotan@boots:pilot liza|MERGING$ git add cgi/ureport
@@ -324,7 +336,7 @@ Updating e67d947..fcce7e3
 Fast-forward
  cgi/ureport |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
-dotan@boots:pilot elad$ 
+dotan@boots:pilot elad$
 
 
 
@@ -449,5 +461,3 @@ Should look like this:
     alias.lg=log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 ---
-
-
