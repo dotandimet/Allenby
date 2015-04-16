@@ -24,18 +24,19 @@
 - Linux, Perl, Eclipse, PHP ...
 - Resources, Features, Documentation.
 - Linux, [github.com](https://github.com) - many online resources, features, ecosystem
-- Migration (from Subversion) is easy.
+- [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X
 
 ---
 
 ## More Powerful
 
 - **Distributed** Source Control
-- distributed > centralized
-- Local copy contains *entire* repository with all history
-- must be able to merge all sorts of divergence
+- Distributed > Centralized
+- Every local copy contains *entire* repository with all history
 
 ---
+
+Subversion model vs. git model:
 
 ![](/svn-vs-git.png)
 
@@ -43,49 +44,25 @@
 
 ---
 
+More local information (and no network latency) means
+
 - Faster operations
-- Smaller directories
+- Smaller(!) directories
 - **Better Tools**
-- Cheap and easy branching (because it only tracks the changes).
+- Cheap and easy branching and merging.
 
 ---
 
-- [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X
+## Caveats: Power Tools
 
----
+![](/power-tools.jpg)
 
-## Caveats
-
-- Simple migration from Subversion is one way
 - More complex, but more documentation, help and tutorials.
 - You can solve problems with git that you couldn't even create with subversion ;P
 
 ---
 
-## GitLab
-
-[GitLab](https://about.gitlab.com/) is a web interface for a central git repository
-
-![](/gitlab_dashboard.png)
-
-Installed at [evogit.evogene.internal](https://evogit.evogene.internal)
-
----
-
-## Evogit Setup
-
-Login to evogit (Evogene password)
-![](/gitlab_login.png)
-
----
-
-## Profile Page
-
-![](/gitlab_profile.png)
-
----
-
-# Using Git
+# Using Git - Basics
 
 ---
 
@@ -145,7 +122,7 @@ Subversion
 
 `svn commit` will update the server.
 
-If no argument is specified, the current directory is commited.
+If no argument is specified, the current directory is committed.
 
 git
 
@@ -163,7 +140,7 @@ More steps because you track your history locally, not only on the server.
 `git commit -a` will `add` all changed files to a "staging area" and `commit`
 these changes to your local repository. The `-a` flag is a shortcut for two git commands.
 
-You can break down this process to make 2 unrelated changes into seperate
+You can break down this process to group unrelated changes into separate
 commits:
 
     git add foo.css bar.html ...
@@ -174,7 +151,62 @@ commits:
 
 ---
 
-# Daily commands – new features
+Why is a commit distinct from add?
+
+
+The local git environment is made up of 3 parts:
+
+1. The working directory (the files you see).
+2. A repository where commits are recorded
+3. A staging area where commits are assembled, used in merging and other operations.
+
+---
+
+![](/git-transport.png)
+
+---
+
+
+
+# Using Daily commands – new features
+
+---
+
+# Status
+
+What's tracked, what's changed, what's been added/removed, what branch are we on, etc
+
+    git status
+
+Show only changed files (not untracked ones):
+
+   git status -uno
+
+Show changes
+
+   git diff
+
+---
+
+# History
+
+Show history
+
+   git log
+
+Or, in a compact, pretty format:
+
+   git lg
+
+(`lg` is a `git alias`, its really `log` with a few formatting flags)
+
+Show contents of a commit (as a diff/patch):
+
+    git show 3ae2235179fe487096d715807e6346c2302d377d
+
+This also works:
+
+    git show 3ae2235179
 
 ---
 
@@ -186,28 +218,107 @@ Find commits where text was added/changed
 
 You can also search by date, file path modified, etc.
 
+---
+
 ## Reseting state
 
 Resets all changes in your working directory to previous version
 
-    git checkout
+    git checkout [commit / tag / branch] [file]
 
 Reset file to specific version:
 
     git checkout 1fc6392 dbtools/refresh_taxonomy.pl
 
+Undo add/rm (reset the staging area/index):
+
+    git reset [commit]
+
+Undo a commit (just changes what the last commit is considered to be)
+
+    git reset --soft [commit]
+
+Undo a commit and reset the working directory to the commit
+
+    git reset --hard [commit]
+
 ---
 
-git status, diff, log, show
+## Oops commits
+
+Merge this commit with the last commit:
+
+    git commit --amend
+
+Solution for the "oops, typo" extra commit.
+
+In general, you can merge, split and edit commits - as long as you don't touch published history (i.e, commits that you've pushed or pulled).
+
+---
+
+## Stash changes for later work
+
+Save changes in working tree to the side, so you can pull/push/work on something else:
+
+    git stash save [some_name]
+
+Re-apply the changed files back to the working tree:
+
+    git stash pop
+
+See what's saved on the stash:
+
+    git stash list
+
+---
+
+## Alternative: Use a branch:
+
+Create a new branch (and switch to it):
+
+    git checkout -b featureX
+
+Once you're on the new branch, add and commit your changes.
+
+    git commit -a -m '...'
+
+Switch back to the main branch:
+
+    git checkout master
+
+Do pull, work, etc.
+
+    git merge featureX
+
+---
+
+Or, to get the same effect as git stash pop, do:
+
+    git checkout featureX
+    git rebase master
+    git checkout master
+    git merge featureX
+
+---
+
 git checkout version file - or/and?
 update servers - how does it work? We update the history, not files.
-git reset, git commit --amend ...
 stash (before/after branch)
 
 ---
 ## Branches
 
+- The history in git is a directed acyclic graph of commit objects.
+- Each commit points to (one or more) "parent" commits.
 - A *branch* is a distinct line of revisions/commits.
+- **A branch is implemented as a pointer to a commit**.
+
+---
+
+![](/branching.png)
+
+---
+
 - In git, you can maintain multiple distinct branches in your local repository.
 - You can create, delete and merge different branches.
 - You can push a branch to the server (or pull a specific branch from it).
@@ -235,10 +346,13 @@ Merge branch1 into current branch
 ## Remotes
 
 With git you can have multiple remote repositories.
-Usually we will work with only one - evogit, which is aliased to `origin`
+
+    git remote add name url
+
+Usually we will work with only one - *evogit*, which is aliased to **`origin`**
 (this is the default by convention, like `master` for the default branch).
 
-To see all the remote repositories
+To see all the remote repositories with their URLs
 
      git remote -v
 
@@ -246,22 +360,34 @@ To see all the remote repositories
 
 ## Remote branches
 
-
-    git pull branchname
-
 Fetch and merge a remote branch.
 
-    git push origin feature_branch
+    git pull [remote] [branch]
 
-Push your local branch to the remote repository `origin`
+Default branch is usually **master**.
+Default remote is usually **origin**.
 
-    git push -a
+Same as
+    git fetch ..
+    git merge origin/master
+
+---
+
+Push your local branch to the remote repository
+
+    git push [remote] [branch]
+
+Will be rejected if git can't do a fast-forward merge.
+
+---
 
 Push all local branches to remote repository `origin`
 
-    git pull -a
+    git push -a
 
 Pull all remote branches
+
+    git pull -a
 
 ---
 
@@ -282,7 +408,13 @@ tell you how many commits ahead/behind of it your local branch is.
 ## Merge
 
 Whenever git merges two branches, it find the latest common point in their
-history and does a **three-way merge**
+history and does a **three-way merge**.
+
+Three types of merge:
+
+- Fast-Forward merge
+- Recursive
+- The one where git needs your help (conflict).
 
 ---
 
@@ -298,6 +430,7 @@ history and does a **three-way merge**
     no changes added to commit (use "git add" and/or "git commit -a")
     dotan@boots:pilot liza|MERGING$
 
+---
 
     dotan@boots:pilot liza|MERGING$ git diff
     diff --cc cgi/ureport
@@ -318,26 +451,66 @@ history and does a **three-way merge**
       my $ERR_MAKE_REPORT                           = 'make_report() failed without dieing';
       my $ERR_AT_REQUEST_INDEX              = 'at request index';
 
+---
 
-dotan@boots:pilot liza|MERGING$ git add !$
-dotan@boots:pilot liza|MERGING$ git add cgi/ureport
-dotan@boots:pilot liza|MERGING$ git status
-# On branch liza
-# Changes to be committed:
-#
-#       modified:   cgi/ureport
-#
-dotan@boots:pilot liza|MERGING$ git commit -m 'fix conflict'
-[liza fcce7e3] fix conflict
-dotan@boots:pilot liza$ git checkout elad
-Switched to branch 'elad'
-dotan@boots:pilot elad$ git merge liza
-Updating e67d947..fcce7e3
-Fast-forward
- cgi/ureport |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-dotan@boots:pilot elad$
+## Resolving a merge conflict:
 
+Edit the conflicted files, then add them:
+
+    dotan@boots:pilot liza|MERGING$ git add !$
+    dotan@boots:pilot liza|MERGING$ git add cgi/ureport
+
+Check status:
+
+      dotan@boots:pilot liza|MERGING$ git status
+      # On branch liza
+      # Changes to be committed:
+      #
+      #       modified:   cgi/ureport
+      #
+
+Commit:
+
+      dotan@boots:pilot liza|MERGING$ git commit -m 'fix conflict'
+      [liza fcce7e3] fix conflict
+
+---
+
+Can now merge to other branch:
+
+      dotan@boots:pilot liza$ git checkout elad
+      Switched to branch 'elad'
+      dotan@boots:pilot elad$ git merge liza
+      Updating e67d947..fcce7e3
+      Fast-forward
+       cgi/ureport |    2 +-
+       1 files changed, 1 insertions(+), 1 deletions(-)
+      dotan@boots:pilot elad$
+
+---
+
+## GitLab
+
+[GitLab](https://about.gitlab.com/) is a web interface for a central git repository
+
+![](/gitlab_dashboard.png)
+
+Installed at [evogit.evogene.internal](https://evogit.evogene.internal)
+
+---
+
+## Evogit Setup
+
+Login to evogit (Evogene password)
+![](/gitlab_login.png)
+
+---
+
+## Profile Page
+
+![](/gitlab_profile.png)
+
+---
 
 
 # Moving Forward
