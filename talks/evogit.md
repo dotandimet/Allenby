@@ -166,13 +166,15 @@ The local git environment is made up of 3 parts:
 
 ---
 
+[Git Visualization](http://pcottle.github.io/learnGitBranching/?NODEMO)
 
+---
 
 # Using Daily commands – new features
 
 ---
 
-# Status
+## Status
 
 What's tracked, what's changed, what's been added/removed, what branch are we on, etc
 
@@ -188,7 +190,7 @@ Show changes
 
 ---
 
-# History
+## History
 
 Show history
 
