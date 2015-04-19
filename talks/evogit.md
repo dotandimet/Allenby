@@ -33,6 +33,7 @@
 - **Distributed** Source Control
 - Distributed > Centralized
 - Every local copy contains *entire* repository with all history
+- History is not linear!
 
 ---
 
@@ -40,7 +41,18 @@ Subversion model vs. git model:
 
 ![](/svn-vs-git.png)
 
-- Tracks changes to whole project, not revisions of files
+- Subversion records diffs
+- Git records snapshots
+
+---
+
+## How To Update
+
+Subversion: examine entire project tree; any file with a revision earlier than
+the last revision gets updated.
+
+Git: compare the last commit to the current commit, apply the diff to the
+project tree.
 
 ---
 
