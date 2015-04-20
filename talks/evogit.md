@@ -20,10 +20,10 @@
 
 - Subversion was a good bet in 2005.
 - Things have moved on.
-- Git is currently the most widely used version control system.
-- Linux, Perl, Eclipse, PHP ...
-- Resources, Features, Documentation.
-- Linux, [github.com](https://github.com) - many online resources, features, ecosystem
+- Linux, Perl, Eclipse, PHP and many more all use git.
+- More Documentation, Tutorials, Help.
+- Many online resources, features, ecosystem 
+- [github.com](https://github.com) - THE site for hosting open source code 
 - [https://thkoch2001.github.io/whygitisbetter/](https://thkoch2001.github.io/whygitisbetter/) - Why git is better than X
 
 ---
@@ -32,21 +32,50 @@
 
 - **Distributed** Source Control
 - Distributed > Centralized
-- Every local copy contains *entire* repository with all history
+- Local Repository (full history) > working directory
 - History is not linear!
+- Cheap and easy branching and merging.
+- **Better Tools**
 
 ---
 
-Subversion model vs. git model:
+## Caveats: Power Tools
+
+![](/power-tools.jpg)
+
+---
+
+
+# Git vs. Subversion
+
+---
+
+## Subversion is Centralized
+
+![](/svn-centralized.svg)
+
+---
+
+## Git is Distributed
+
+![](/git-distributed.svg)
+
+---
+
+### Subversion records diffs, git records snapshots
+
+![](/svn-diffs.svg)
+
+---
 
 ![](/svn-vs-git.png)
 
-- Subversion records diffs
-- Git records snapshots
+In git all content has a SHA-1 signature - file contents, directory contents,
+**commits**
 
 ---
 
-## How To Update
+### Example - How To Update
 
 Subversion: examine entire project tree; any file with a revision earlier than
 the last revision gets updated.
@@ -56,21 +85,15 @@ project tree.
 
 ---
 
-More local information (and no network latency) means
-
-- Faster operations
-- Smaller(!) directories
-- **Better Tools**
-- Cheap and easy branching and merging.
+## Subversion branches are copies of repository root
 
 ---
 
-## Caveats: Power Tools
+## Git branch is a pointer to a chain of commits
 
-![](/power-tools.jpg)
+![](/branching.png)
 
-- More complex, but more documentation, help and tutorials.
-- You can solve problems with git that you couldn't even create with subversion ;P
+The default branch is called `master`
 
 ---
 
@@ -163,8 +186,13 @@ commits:
 
 ---
 
-Why is a commit distinct from add?
+## Why is a commit distinct from add?
 
+![](/git-3-areas.svg)
+
+---
+
+![](/git-add-commit-checkout.svg)
 
 The local git environment is made up of 3 parts:
 
@@ -174,11 +202,8 @@ The local git environment is made up of 3 parts:
 
 ---
 
-![](/git-transport.png)
 
----
-
-[Git Visualization](http://pcottle.github.io/learnGitBranching/?NODEMO)
+![](/git+commands.png)
 
 ---
 
@@ -224,6 +249,10 @@ This also works:
 
 ---
 
+![](/git-status-vs-log.svg)
+
+---
+
 ## History search
 
 Find commits where text was added/changed
@@ -231,6 +260,12 @@ Find commits where text was added/changed
     git log -S "text_added" file...
 
 You can also search by date, file path modified, etc.
+
+---
+
+For the next part, we'll need this:
+
+[Git Visualization](http://pcottle.github.io/learnGitBranching/?NODEMO)
 
 ---
 
@@ -267,6 +302,10 @@ Merge this commit with the last commit:
 Solution for the "oops, typo" extra commit.
 
 In general, you can merge, split and edit commits - as long as you don't touch published history (i.e, commits that you've pushed or pulled).
+
+---
+
+## Never Change Published History
 
 ---
 
@@ -320,16 +359,19 @@ update servers - how does it work? We update the history, not files.
 stash (before/after branch)
 
 ---
+
+## Branches
+
+![](/git-branches.svg)
+
+---
+
 ## Branches
 
 - The history in git is a directed acyclic graph of commit objects.
 - Each commit points to (one or more) "parent" commits.
 - A *branch* is a distinct line of revisions/commits.
 - **A branch is implemented as a pointer to a commit**.
-
----
-
-![](/branching.png)
 
 ---
 
@@ -419,6 +461,18 @@ tell you how many commits ahead/behind of it your local branch is.
 
 ---
 
+## git pull
+
+![](/git-before-pull.svg)
+
+---
+
+## git push
+
+![](/git-before-push.svg)
+
+---
+
 ## Merge
 
 Whenever git merges two branches, it find the latest common point in their
@@ -429,6 +483,15 @@ Three types of merge:
 - Fast-Forward merge
 - Recursive
 - The one where git needs your help (conflict).
+
+---
+
+
+![](/git-ff-merge.svg)
+
+---
+
+![](/git-before-3-way-merge.svg)
 
 ---
 
@@ -648,3 +711,13 @@ Should look like this:
     alias.lg=log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 ---
+
+## Further Reading
+
+- [Atlassian Git Tutorials](https://www.atlassian.com/git/tutorials)
+- [Pro Git book (online)](http://git-scm.com/book/en/v2)
+- [Learn Git Branching](http://pcottle.github.io/learnGitBranching/) -
+tutorials with pretty visualizations
+- [Most common git screwups/questions and solutions](http://41j.com/blog/2015/02/common-git-screwupsquestions-solutions/)
+
+
