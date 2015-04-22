@@ -135,8 +135,6 @@ git
 
     git add file1 dir1 ...
 
----
-
 ## Remove files:
 
 Subversion
@@ -189,6 +187,13 @@ commits:
 ## Why is a commit distinct from add?
 
 ![](/git-3-areas.svg)
+
+`git help commit` (man page) says:
+
+> Stores the current contents of the index in a new commit along with a log
+> message from the user describing the changes.
+
+**WAT?**
 
 ---
 

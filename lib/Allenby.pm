@@ -78,6 +78,13 @@ sub startup {
         qq{<a href="$href" role="button" class="@classes">}
         . qq{<span class="ui-button-text">$text</span></a>};
     } );
+
+  $self->hook(after_render => sub {
+    my ($c, $output, $format) = @_;
+      if ($format eq 'html') {
+        $$output = Mojo::DOM->new($$output)->at('body')->prepend('<div><h1>CONTROL</h1></div>')->root->to_string;
+      }
+      });
 }
 
 1;
