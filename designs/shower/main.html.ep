@@ -12,9 +12,9 @@
 		<h1><%= $title %></h1>
 	</header>
 %for my $slide (@$show) {
-    <section class="slide">
+    <section class="slide"><div>
       <%== $slide %>
-    </section>
+    </div></section>
 % }
 <!--
 		To hide progress bar from entire presentation
