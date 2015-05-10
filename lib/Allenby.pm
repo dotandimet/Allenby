@@ -8,6 +8,7 @@ use Mojo::Base 'Mojolicious';
 use Allenby::Model::Slides;
 use File::Basename qw(basename dirname);
 use File::Spec;
+use Mojo::Util qw(encode);
 
 has 'talks' => sub { {} };
 has 'talk_dirs' => sub { [] };
@@ -79,12 +80,13 @@ sub startup {
         . qq{<span class="ui-button-text">$text</span></a>};
     } );
 
-  $self->hook(after_render => sub {
-    my ($c, $output, $format) = @_;
-      if ($format eq 'html') {
-        $$output = Mojo::DOM->new($$output)->at('body')->prepend('<div><h1>CONTROL</h1></div>')->root->to_string;
-      }
-      });
+#   $self->hook(after_render => sub {
+#     my ($c, $output, $format) = @_;
+#       if ($format eq 'html') {
+#         $$output = encode 'UTF-8', Mojo::DOM->new($$output)->at('body')->prepend('<div><h1>CONTROL</h1></div>')->root->to_string;
+#       }
+#       });
+
 }
 
 1;
