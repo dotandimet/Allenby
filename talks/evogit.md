@@ -311,8 +311,6 @@ Create a new branch (and switch to it):
 
 Once you're on the new branch, add and commit your changes.
 
-    git commit -a -m '...'
-
 Switch back to the main branch:
 
     git checkout master
