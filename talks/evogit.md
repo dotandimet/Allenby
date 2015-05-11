@@ -90,11 +90,28 @@ Also:
 
 ---
 
-## Result
+## Consequences
 
-* Flexible
-* Inconsistent
-* Fragile
+### Flexible
+
+We can work on different projects in the same repository without bothering each other.
+
+### Inconsistent
+
+Two developers can test against different sets of files, and their working
+directories will have different files than the production site.
+
+There is no "release" or "tested version" inside Subversion.
+
+### Fragile
+
+If we change two different files that depend on each other, we can both
+commit our changes without testing against each other's changes, and push
+this to production.
+
+BOOM
+
+
 
 ---
 
@@ -173,6 +190,8 @@ Merge your changes into the remote branch (update the server):
 
 "Server" is just a remote git repository.
 
+By convention, the remote git repository we cloned from is called `origin`.
+
 ---
 
 ## All together:
@@ -218,7 +237,6 @@ commits:
 
 ---
 
-
 The local git environment is made up of 3 parts:
 
 1. The working directory (the files you see).
@@ -236,7 +254,7 @@ The local git environment is made up of 3 parts:
 
 ---
 
-## Status
+## Current situation
 
 What's tracked, what's changed, what's been added/removed, what branch are we on, etc
 
@@ -256,19 +274,9 @@ Show changes
 
 Show history
 
-    git log
+    git log (... or git lg for nicer formatting)
 
-Or, in a compact, pretty format:
-
-    git lg
-
-(`lg` is a `git alias`, its really `log` with a few formatting flags)
-
-Show contents of a commit (as a diff/patch):
-
-    git show 3ae2235179fe487096d715807e6346c2302d377d
-
-This also works:
+To examine an old commit (as a diff/patch):
 
     git show 3ae2235179
 
@@ -415,6 +423,19 @@ Edit the conflicted files, then add them:
 
 ---
 
+## Important Note: Rewriting History
+
+* `git rebase` let's you rewrite history.
+* This allows you to create a cleaner history, for example before merging a
+branch into master.
+* However, you should never rewrite **published** history.
+
+* Specifically, **never** rebase `master` on any branch *except*
+`origin/master`.
+
+
+---
+
 ## GitLab
 
 [GitLab](https://about.gitlab.com/) is a web interface for a central git repository
@@ -425,9 +446,9 @@ Installed at [evogit.evogene.internal](https://evogit.evogene.internal)
 
 ---
 
-## Evogit Setup
+## GitLab Setup
 
-Login to evogit (Evogene password)
+Login to GitLab (Evogene password)
 ![](/gitlab_login.png)
 
 ---
@@ -438,7 +459,9 @@ Login to evogit (Evogene password)
 
 ---
 
-## Leftover slides
+## SSH Keys
+
+![](/gitlab_ssh_keys.png)
 
 ---
 
@@ -455,6 +478,8 @@ Next just use code below to dump your public key and add to GitLab SSH Keys
     # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....
 
 ---
+
+## Add SSH Key
 
 Paste it in your profile
 
