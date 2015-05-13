@@ -66,8 +66,8 @@ sub startup {
   # Routes
   my $r = $self->routes;
 
-  $r->route('/(#style)/')->via('get')->to('slide#shows', style => 'mine')->name('shows');
-  $r->route('/(#style)/(:talk)')->to('slide#show')->name('show');
+  $r->route('/')->via('get')->to('slide#shows', style => 'mine')->name('shows');
+  $r->route('/(:talk)')->to('slide#show')->name('show');
   $r->route('/')->via('post')->to('slide#choose')->name('choose');
 
     $self->helper( button => sub {

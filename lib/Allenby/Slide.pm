@@ -17,16 +17,16 @@ sub shows {
       template => 'slide/shows'
   );
   my $show = [ $slide ];
-  my $style = $self->stash('style') || 'mine';
+  my $style = $self->session('style') || $self->stash('style') || 'mine';
   my $template = "$style/main";
-  $self->render(template => $template, show => $show, title => 'slide listing');
+  $self->render(template => "mine/main", show => $show, title => 'slide listing');
 }
 
 sub show {
   my ($self) = @_;
   my ($talk) = $self->stash('talk');
   my $show = $self->app->talks->{$talk}->slides;
-  my $style = $self->stash('style') || 'mine';
+  my $style = $self->session('style') || $self->stash('style') || 'mine';
   my $template = "$style/main";
   $self->render(template => $template, show => $show, title => $self->app->talks->{$talk}->title);
 }
@@ -35,7 +35,8 @@ sub choose {
   my ($self) = @_;
   my $talk = $self->param('talk');
   my $style = $self->param('style');
-  $self->redirect_to('show', talk => $talk, style => $style);
+  $self->session(style => $style);
+  $self->redirect_to('show', talk => $talk);
 }
 
 
