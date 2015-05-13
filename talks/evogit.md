@@ -10,13 +10,13 @@
 
 ## More Popular
 
-![](/project_using_git.png)
+![](project_using_git.png)
 
 ---
 
 ## More Powerful
 
-![](/power-tools.jpg)
+![](power-tools.jpg)
 
 ---
 
@@ -26,7 +26,7 @@
 
 ## How Subversion Works
 
-![](/svn-centralized.svg)
+![](svn-centralized.svg)
 
 ---
 
@@ -59,9 +59,9 @@ Also:
 
 ---
 
-![](/svnexplained01.png)
+![](svnexplained01.png)
 
-![](/svn_explained02.png)
+![](svn_explained02.png)
 
 ---
 
@@ -119,7 +119,7 @@ BOOM
 
 ### Git is Distributed
 
-![](/git-distributed.svg)
+![](git-distributed.svg)
 
 ### Everyone has a repository
 
@@ -127,7 +127,7 @@ BOOM
 
 ### Subversion records diffs of files
 
-![](/svn-vs-git.png)
+![](svn-vs-git.png)
 
 ### git records snapshots of the whole project
 
@@ -147,7 +147,7 @@ BOOM
 
 * A git branch is a pointer to a chain of commits
 
-![](/branching.png)
+![](branching.png)
 
 The default branch is called `master`
 
@@ -233,24 +233,24 @@ commits:
     git add g2c.pl
     git commit -m 'fix bug in loader script...'
 
-![](/git-add-commit.svg)
+![](git-add-commit.svg)
 
 ---
 
-The local git environment is made up of 3 parts:
+## The 3 parts of the local git environment
 
 1. The working directory (the files you see).
-2. A repository where commits are recorded
-3. A staging area where commits are assembled, used in merging and other operations.
+2. The repository where commits are recorded
+3. The index, a staging area where commits are assembled, used in merging and other operations.
 
 
-![](/git+commands.png)
+![](git+commands.png)
 
 ---
 
 ## Examining things
 
-![](/git-status-vs-log.svg)
+![](git-status-vs-log.svg)
 
 ---
 
@@ -371,7 +371,7 @@ merge will be of the trivial kind
 
 ## Fast-forward merge
 
-![](/git-ff-merge.svg)
+![](git-ff-merge.svg)
 
 No new commit is created
 
@@ -379,7 +379,7 @@ No new commit is created
 
 ## 3-Way merge
 
-![](/git-before-3-way-merge.svg)
+![](git-before-3-way-merge.svg)
 
 A **merge commit** is created
 
@@ -387,7 +387,7 @@ A **merge commit** is created
 
 ## Rebase
 
-![](/git-merge-after-rebase.svg)
+![](git-merge-after-rebase.svg)
 
 ---
 
@@ -438,7 +438,7 @@ branch into master.
 
 [GitLab](https://about.gitlab.com/) is a web interface for a central git repository
 
-![](/gitlab_dashboard.png)
+![](gitlab_dashboard.png)
 
 Installed at [evogit.evogene.internal](https://evogit.evogene.internal)
 
@@ -447,19 +447,19 @@ Installed at [evogit.evogene.internal](https://evogit.evogene.internal)
 ## GitLab Setup
 
 Login to GitLab (Evogene password)
-![](/gitlab_login.png)
+![](gitlab_login.png)
 
 ---
 
 ## Profile Page
 
-![](/gitlab_profile.png)
+![](gitlab_profile.png)
 
 ---
 
 ## SSH Keys
 
-![](/gitlab_ssh_keys.png)
+![](gitlab_ssh_keys.png)
 
 ---
 
@@ -481,7 +481,7 @@ Next just use code below to dump your public key and add to GitLab SSH Keys
 
 Paste it in your profile
 
-![](/gitlab_ssh_key.png)
+![](gitlab_ssh_key.png)
 
 ---
 
