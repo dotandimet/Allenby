@@ -465,15 +465,19 @@ Login to GitLab (Evogene password)
 
 ## Generate ssh key
 
-To [generate a new SSH key](http://evogit.evogene.internal/help/ssh) just open your terminal and use code below.
+Open a terminal.
+
+First, check if you already have an ssh key:
+
+    cat ~/.ssh/id_rsa.pub
+    # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....
+
+If the file isn't there, [generate a new SSH key](http://evogit.evogene.internal/help/ssh) with this command:
 
     ssh-keygen -t rsa -C "dotan@evogene.com"# Creates a new ssh key using the provided email
     # Generating public/private rsa key pair...
 
-Next just use code below to dump your public key and add to GitLab SSH Keys
-
-    cat ~/.ssh/id_rsa.pub
-    # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....
+Next take the content of the public key and add to GitLab SSH Keys
 
 ---
 

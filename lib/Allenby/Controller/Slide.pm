@@ -1,10 +1,10 @@
-package Allenby::Slide;
-use Allenby::Model::Slides;
+package Allenby::Controller::Slide;
 
 use strict;
 use warnings;
 
 use base 'Mojolicious::Controller';
+use Allenby::Model::Slides;
 
 sub shows {
   my ($self) = @_;

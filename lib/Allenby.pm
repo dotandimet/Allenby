@@ -19,6 +19,7 @@ has 'design_dirs' => sub { [] };
 sub startup {
     my $self = shift;
     my $conf = $self->plugin('Config');
+    $self->commands->namespaces([ 'Allenby::Command', 'Mojolicious::Command' ]);
     if ($conf->{design_dirs}
         && ref $conf->{design_dirs} eq 'ARRAY') {
       foreach my $dir (@{$conf->{design_dirs}}) {
@@ -41,18 +42,18 @@ sub startup {
       map { $self->designs->{basename($_)} = $_ } @design_paths;
       push @{$self->static->paths}, map { File::Spec->catdir($_, 'public') } @design_paths;
     }
-    $self->log->debug("Designs:", $self->dumper($self->designs));
+    #$self->log->debug("Designs:", $self->dumper($self->designs));
     # add talks
-    $self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.md'));
+    #$self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.md'));
    foreach my $talk (map { glob($_ . '/*.md') } @{ $self->talk_dirs } ) {
-    $self->log->debug("loading $talk");
+    #$self->log->debug("loading $talk");
     my $name = basename($talk, '.md');
-    $self->log->debug("talk name is $name");
+    #$self->log->debug("talk name is $name");
     my $slideshow =
       Allenby::Model::Slides->new(path => $talk);
     $self->talks->{$name} = $slideshow;
-    $self->log->debug("talk $name is called ", $slideshow->title,
-     " and has ", $slideshow->count , " slides");
+    #$self->log->debug("talk $name is called ", $slideshow->title,
+    # " and has ", $slideshow->count , " slides");
     my $extras_dir = File::Spec->catdir(dirname($talk), $name);
     if (-d $extras_dir) {
       push @{$self->static->paths}, $extras_dir;
