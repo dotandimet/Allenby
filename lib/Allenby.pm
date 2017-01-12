@@ -6,8 +6,7 @@ use warnings;
 use Mojo::Base 'Mojolicious';
 
 use Allenby::Model::Slides;
-use File::Basename qw(basename dirname);
-use File::Spec;
+use Mojo::File qw(path);
 use Mojo::Util qw(encode);
 
 has 'talks' => sub { {} };
@@ -37,28 +36,27 @@ sub startup {
     # add designs
     for my $design_dir (@{$self->{design_dirs}}) {
       push @{$self->renderer->paths}, $design_dir;
-      my @design_paths = grep { -d $_ } glob("$design_dir/*");
-      my $designs = map { basename($_) } @design_paths;
-      map { $self->designs->{basename($_)} = $_ } @design_paths;
+      my @design_paths = path("$design_dir")->list({ dir => 1 })->grep(sub { -d $_ } )->each();
+      map { $self->designs->{$_->basename()} = $_ } @design_paths;
       push @{$self->static->paths}, map { File::Spec->catdir($_, 'public') } @design_paths;
     }
     #$self->log->debug("Designs:", $self->dumper($self->designs));
     # add talks
     #$self->log->debug('loading talks from: ', $self->home, " : ", glob($self->home . '/*.md'));
-   foreach my $talk (map { glob($_ . '/*.md') } @{ $self->talk_dirs } ) {
+   foreach my $talk (map { path($_) } map { glob($_ . '/*.md') } @{ $self->talk_dirs } ) {
     #$self->log->debug("loading $talk");
-    my $name = basename($talk, '.md');
+    my $name = $talk->basename('.md');
     #$self->log->debug("talk name is $name");
     my $slideshow =
-      Allenby::Model::Slides->new(path => $talk);
+      Allenby::Model::Slides->new(path => $talk->to_string());
     $self->talks->{$name} = $slideshow;
     #$self->log->debug("talk $name is called ", $slideshow->title,
     # " and has ", $slideshow->count , " slides");
-    my $extras_dir = File::Spec->catdir(dirname($talk), $name);
+    my $extras_dir = $talk->dirname()->child($name);
     if (-d $extras_dir) {
       push @{$self->static->paths}, $extras_dir;
     }
-   my $demos_file = File::Spec->catfile(dirname($talk), 'demos.conf');
+   my $demos_file = $talk->dirname()->child('demos.conf');
    if (-r $demos_file) {
     
   }
