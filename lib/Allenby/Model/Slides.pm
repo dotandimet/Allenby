@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Text::Markdown 'markdown';
-use Mojo::Util qw(slurp decode);
+use Mojo::File;
 
 use Mojo::Base '-base';
 
@@ -12,7 +12,7 @@ has 'path';
 
 has text => sub {
   my $self = shift;
-  return decode('UTF-8', slurp($self->path));
+  return Mojo::File->new($self->path)->slurp('UTF-8');
 };
 
 has slides => sub {
